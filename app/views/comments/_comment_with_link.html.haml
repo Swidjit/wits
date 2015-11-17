@@ -1,0 +1,28 @@
+/ COMMENT
+.comment[comment]
+  %section
+    =link_to comment.commentable.body.truncate(20,'...'), post_path(comment.commentable_id)
+  %section.top
+    %h6.byline
+      =link_to user_path(comment.user) do
+        %i.icon>
+        =comment.user.email
+        -if comment.user == current_user
+          %span.label Post Author
+      %small
+        said
+        %span.data
+          = comment.created_at.strftime("%B %d, %Y at %l:%M %p")
+  %section.content
+    = comment.body
+  %section.actions
+    %ul.inline-list
+      -if user_signed_in? && comment.user == current_user
+        %li
+          =link_to comment_path(comment), :method => :delete, :remote => :true do
+            Delete
+
+
+      %li
+        %a{:href => "#"} Reply
+/

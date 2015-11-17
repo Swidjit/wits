@@ -4,3 +4,10 @@
 .row
   .large-8.columns
     %p=@item.body
+  .large-4.columns
+    #comments{:style=>'margin-top: 25px;'}
+      %h6 Comments
+      .comments
+        = render :partial => 'comments/comment', :collection => @comments, :as => :comment
+      -if user_signed_in?
+        = render :partial => 'comments/form', :locals => { :comment => @new_comment }

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   end
 
   resources :posts
+  resources :comments, :only => [:create, :destroy]
 
   root 'pages#home'
   get '/pages/:page_name' => 'pages#index', :as => :pages

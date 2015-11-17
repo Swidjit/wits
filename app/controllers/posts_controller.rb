@@ -3,8 +3,8 @@ class PostsController < ApplicationController
 
   def show
     @item = Post.find_by_slug(params[:id])
-    #@comments = @item.comment_threads.order('created_at desc')
-    #@new_comment = Comment.build_from(@item, current_user.id, "") if user_signed_in?
+    @comments = @item.comment_threads.order('created_at desc')
+    @new_comment = Comment.build_from(@item, current_user.id, "") if user_signed_in?
 
   end
 
