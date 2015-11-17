@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   end
 
+  resources :posts
+
   root 'pages#home'
   get '/pages/:page_name' => 'pages#index', :as => :pages
   get '/sitemap.xml' => 'pages#sitemap'

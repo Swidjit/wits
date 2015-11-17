@@ -58,7 +58,9 @@
           Sign Up
   %a.close-reveal-modal ×
 
-
+#new-post.reveal-modal{"data-reveal" => ""}
+  #form
+  %a.close-reveal-modal ×
 
 :javascript
   $('#login-button').on('click', function() {
@@ -87,3 +89,18 @@
        }
     });
   });
+  $('.post-option').on('click', function() {
+    showForm($(this));
+    $('#new-post').foundation('reveal', 'open');
+    $("#new-post").on("opened.fndtn.reveal", function(){
+      $('.first-input').focus();
+    });
+  });
+  function showForm(f) {
+    switch(f.data("post-type")) {
+        case "prose":
+          $('#form').html("#{escape_javascript render :partial => 'posts/new'}");
+          break;
+
+      }
+  }

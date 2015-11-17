@@ -16,6 +16,30 @@
     %section.top-bar-section
       %ul.left
         -if user_signed_in?
+          %li.divider
+          %li.has-dropdown.hide-for-small
+            %a{:href => "#"} POST
+            %ul.dropdown.m-menu
+              %li
+                .row{:style=>"background-color:#835B9F;"}
+                  .large-4.medium-6.small-12.columns.post-option{"data-post-type" => "prose", :class=>"post-button"}
+                    %i.fi-pencil
+                    comment
+                    %p contribute to the political dialogue
+                  .large-4.medium-6.small-12.columns.post-option{"data-post-type" => "link", :class=>"post-button"}
+                    %i.fi-web
+                    link
+                    %p news, blogs and other election resources
+                  .large-4.medium-6.small-12.columns.post-option{"data-post-type" => "video", :class=>"post-button"}
+                    %i.fi-video
+                    video
+                    %p embed a video from youtube, vimeo or vine
+                .row{:style=>"background-color:#835B9F;"}
+                  .large-6.medium-6.small-12.columns.post-option{"data-post-type" => "image", :class=>"post-button"}
+                    %i.fi-image
+                    image
+                    %p upload a photo, graphic or political meme
+        -if user_signed_in?
 
         -else
           %li

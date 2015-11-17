@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   }
   #validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/
 
+  has_many :posts
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
