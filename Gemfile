@@ -9,7 +9,7 @@ gem 'haml-rails'
 gem 'formtastic', '~> 3.0'
 
 gem 'foundation-rails', '5.4.5'
-gem 'foundation-icons-sass-rails'
+
 gem 'jquery-validation-rails'
 gem 'acts_as_commentable_with_threading'
 gem 'acts-as-taggable-on', '~> 3.4'
@@ -25,7 +25,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-
+gem 'foundation-icons-sass-rails'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
