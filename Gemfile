@@ -14,6 +14,8 @@ gem 'jquery-validation-rails'
 gem 'acts_as_commentable_with_threading'
 gem 'acts-as-taggable-on', '~> 3.4'
 
+gem 'contact_us', '~> 1.0.1'
+
 gem 'devise'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
