@@ -2,10 +2,13 @@ Rails.application.routes.draw do
 
   devise_for :users,
     :controllers => { :registrations => "registrations", :sessions => "sessions" }
+  resources :users do
 
+  end
 
   root 'pages#home'
   get '/pages/:page_name' => 'pages#index', :as => :pages
+  get '/sitemap.xml' => 'pages#sitemap'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
