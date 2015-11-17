@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :posts, :only => [:create, :update, :destroy, :show,:index] do
+  resources :posts, :only => [:create, :update, :destroy, :show,:index, :edit] do
     collection do
       get 'autocomplete_tag_search'
     end

@@ -55,6 +55,7 @@ GEM
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
     byebug (8.2.0)
+    cancancan (1.13.1)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.7)
@@ -238,6 +239,7 @@ DEPENDENCIES
   acts_as_commentable_with_threading
   aws-sdk (< 2.0)
   byebug
+  cancancan (~> 1.10)
   coffee-rails (~> 4.1.0)
   contact_us (~> 1.0.1)
   devise

@@ -1,6 +1,9 @@
 .row
   .large-12.columns
     %h4=@item.title
+    -if can? :update, @item
+      =link_to 'edit', edit_post_path(@item)
+
 .row
   .large-8.columns
     %p=@item.body
