@@ -3,6 +3,7 @@ class Post < ActiveRecord::Base
   belongs_to :user
 
   acts_as_commentable
+  acts_as_taggable
 
   after_create :add_title_and_slug
 

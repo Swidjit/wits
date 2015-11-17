@@ -54,9 +54,16 @@ class PostsController < ApplicationController
     end
   end
 
+  def autocomplete_tag_search
+    @tags = ActsAsTaggableOn::Tag.where("name LIKE (?)","%#{params[:q]}%")
+    respond_to do |format|
+      format.json { render :json => @tags.collect{|tag| {:id => tag.name, :name => tag.name}} }
+    end
+  end
+
   private
 
   def post_params
-    params.require(:post).permit(:user_id, :resource_type, :category_id,:title,:body)
+    params.require(:post).permit(:user_id, :resource_type, :category_id,:title,:body, :tag_list)
   end
 end

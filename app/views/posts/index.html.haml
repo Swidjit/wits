@@ -1,0 +1,25 @@
+-content_for :head do
+  %title Posts
+.row
+  .large-4.columns
+    %h4 Adding Content
+    %button#debate-post.right.button.dropdown{"aria-controls" => "post-options", "aria-expanded" => "false", "data-dropdown" => "post-options", :href => "#"} Post about election
+    %ul#post-options.f-dropdown{"aria-hidden" => "true", "data-dropdown-content" => ""}
+      %li
+        %div{"data-post-type" => "video", :class=>"post-option"} Post a Video
+      %li
+        %div{"data-post-type" => "image", :class=>"post-option"} Post an Image
+      %li
+        %div{"data-post-type" => "link", :class=>"post-option"} Post a Link
+      %li
+        %div{"data-post-type" => "prose", :class=>"post-option"} Post a Comment
+  .large-8.columns
+    #posts
+      %h4 Recent Posts
+
+
+      -if @posts.size > 0
+        = render @posts
+
+      -else
+        %p No listings

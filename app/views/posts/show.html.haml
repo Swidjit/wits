@@ -5,6 +5,8 @@
   .large-8.columns
     %p=@item.body
   .large-4.columns
+    -@item.tag_list.each do |t|
+      =link_to t, filtered_posts_path('all',t)
     #comments{:style=>'margin-top: 25px;'}
       %h6 Comments
       .comments

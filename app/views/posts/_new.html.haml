@@ -7,5 +7,10 @@
   =f.text_field :title
   %label Category
   -#=f.select :category_id, content_tag(:option,'--',:value=>"")+options_from_collection_for_select(Category.all, 'id', 'name'),:id=>'category-id'
+  %label Tag relevant keywords or topics
+  #tag-list
+  %input{:type => 'text', :name => 'tags', :class => 'autocomplete', :autocomplete=>'off'}
+  =f.hidden_field :tag_list
+  .autocomplete-options
   =f.submit "save"
 

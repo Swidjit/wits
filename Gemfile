@@ -12,6 +12,7 @@ gem 'foundation-rails', '5.4.5'
 gem 'foundation-icons-sass-rails'
 gem 'jquery-validation-rails'
 gem 'acts_as_commentable_with_threading'
+gem 'acts-as-taggable-on', '~> 3.4'
 
 gem 'devise'
 # Use SCSS for stylesheets

@@ -1,0 +1,116 @@
+.autocomplete-options {
+  margin-top: -10px;
+  font-size: 16px;
+  min-width: 200px;
+  line-height: 18px;
+  color: #222;
+  display:none;
+
+}
+.autocomplete-option {
+  padding: 3px 8px;
+  border-bottom: 1px solid gray;
+
+}
+
+.autocomplete-option:hover {
+  padding: 3px 8px;
+  border-bottom: 1px solid gray;
+  background-color:#c0c;
+}
+#tag-list {
+  margin: 5px;
+}
+#tag-list div {
+  display: inline;
+}
+.tag {
+  padding: 4px 8px;
+  background-color: #4174c5;
+  color: #eee;
+  margin-right: 4px;
+  display: inline;
+  a {
+    color: #eee;
+  }
+  a:hover {
+    color: #fff;
+  }
+  .del {
+    cursor:pointer;
+    font-weight: bold;
+    margin-left: 5px;
+    color: #ccc;
+  }
+  .del:hover {
+    color: #000;
+  }
+}
+.tags{
+  margin:4px 0;
+  padding:0;
+  list-style:none;
+    display: inline-block;
+}
+
+.tags li, .tags a{
+  float:left;
+  height:20px;
+  line-height:20px;
+  position:relative;
+  font-size:12px;
+}
+
+.tags a{
+  font-family: "Open Sans", sans-serif;
+  margin-left:20px;
+  padding:0 10px 0 12px;
+  background:#4174c5;
+  color:#fff;
+  text-decoration:none;
+  -moz-border-radius-bottomright:4px;
+  -webkit-border-bottom-right-radius:4px;
+  border-bottom-right-radius:4px;
+  -moz-border-radius-topright:4px;
+  -webkit-border-top-right-radius:4px;
+  border-top-right-radius:4px;
+
+}
+
+.tags a:before{
+  content:"";
+  float:left;
+  position:absolute;
+  top:0;
+  left:-12px;
+  width:0;
+  height:0;
+  border-color:transparent #4174c5 transparent transparent;
+  border-style:solid;
+  border-width:10px 12px 10px 0;
+}
+
+.tags a:after{
+  content:"";
+  position:absolute;
+  top:8px;
+  left:0;
+  float:left;
+  width:4px;
+  height:4px;
+  -moz-border-radius:2px;
+  -webkit-border-radius:2px;
+  border-radius:2px;
+  background:#fff;
+  -moz-box-shadow:-1px -1px 2px #004977;
+  -webkit-box-shadow:-1px -1px 2px #004977;
+  box-shadow:-1px -1px 2px #004977;
+}
+
+.tags a:hover {
+  background:#555;
+}
+
+.tags a:hover:before {
+  border-color:transparent #555 transparent transparent;
+}

@@ -6,11 +6,16 @@ Rails.application.routes.draw do
 
   end
 
-  resources :posts
+  resources :posts, :only => [:create, :update, :destroy, :show,:index] do
+    collection do
+      get 'autocomplete_tag_search'
+    end
+  end
   resources :comments, :only => [:create, :destroy]
 
   root 'pages#home'
   get '/pages/:page_name' => 'pages#index', :as => :pages
+  get '/posts/:category/:tag' => 'posts#index', :as => :filtered_posts
   get '/sitemap.xml' => 'pages#sitemap'
 
   # Example of regular route:
