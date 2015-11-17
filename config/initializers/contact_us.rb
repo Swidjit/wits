@@ -25,6 +25,6 @@ ContactUs.setup do |config|
   config.form_gem = 'formtastic'
 
   # Configure the redirect URL after a successful submission
-  config.success_redirect = '/thanks'
+  config.success_redirect = '/pages/thanks'
 
 end

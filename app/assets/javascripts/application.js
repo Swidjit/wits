@@ -17,5 +17,5 @@
 //= require_tree .
 //= require jquery.validate
 //= require jquery.validate.additional-methods
-
+//= require s3_direct_upload
 $(function(){ $(document).foundation(); });

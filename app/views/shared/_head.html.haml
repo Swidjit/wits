@@ -40,7 +40,7 @@
                     image
                     %p upload a photo, graphic or political meme
         -if user_signed_in?
-
+          %li=link_to current_user.username, user_path(current_user.username)
         -else
           %li
             %a{"data-reveal-id" => "login", :href => "#"} Login

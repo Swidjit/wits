@@ -1,0 +1,20 @@
+.row
+  .large-4.columns
+    #user-photo
+      =render :partial => 'users/photo'
+    -puts @user
+
+    = s3_uploader_form callback_url: upload_file_user_path(@user), callback_param: "user[image_url]", id: "s3-uploader" do
+      = file_field_tag :file
+
+%script#template-upload{:type => "text/x-tmpl"}
+  .upload{:id => "file-{%=o.unique_id%}"}
+    {%=o.name%}
+    .progress
+      .bar{:style => "width: 0%"}
+:javascript
+   $(document).on('ready page:load', function(){
+
+    $("#s3-uploader").S3Uploader();
+
+   });

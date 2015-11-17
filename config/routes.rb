@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   devise_for :users,
     :controllers => { :registrations => "registrations", :sessions => "sessions" }
   resources :users do
-
+    member do
+      post 'upload_file'
+    end
   end
 
   resources :posts, :only => [:create, :update, :destroy, :show,:index] do
