@@ -1,0 +1,31 @@
+.contain-to-grid.fixed
+  %nav.top-bar{"data-topbar" => "", :role => "navigation"}
+    %ul.title-area
+      %li
+        %h1
+          .hide-for-small
+            %i.fi-star{:style=>"font-size: 30px;position:relative;top:3px;  margin-right: 4px;margin-left: 8px;"}
+            =link_to 'Site Name', root_path
+          .show-for-small-only
+
+            =link_to root_path do
+              %i.fi-star{:style=>"font-size: 30px;position:relative;top:3px;  margin-right: 4px;margin-left: 8px;"}
+      %li.toggle-topbar.menu-icon
+        %a{:href => "#"}
+          %span Menu
+    %section.top-bar-section
+      %ul.left
+        -if user_signed_in?
+
+        -else
+          %li
+            %a{"data-reveal-id" => "login", :href => "#"} Login
+          %li
+            =link_to 'Signup', new_user_registration_path
+  #mobile-login.show-for-small-only
+    %ul
+      -if user_signed_in?
+
+      -else
+        %a{"data-reveal-id" => "login", :class=>'button tiny',:href => "#"} Login
+        =link_to 'Signup', new_user_registration_path, :class=>'button tiny'

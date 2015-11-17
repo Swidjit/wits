@@ -1,0 +1,102 @@
+.signup-panel.login-form
+  %h2.text-center Sign up
+  = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+    = devise_error_messages!
+
+    .row.collapse
+      .small-2.columns
+        %span.prefix
+          %i.fi-mail
+      .small-10.columns
+        %input{:placeholder => "email address", :type => "text", :id=>'email', :name=>'user[email]'}
+    .row.collapse
+      .small-2.columns
+        %span.prefix
+          %i.fi-torso-female
+      .small-10.columns
+        %input{:placeholder => "username", :type => "text", :id=>'username', :name=>'user[username]'}
+    .row.collapse
+      .small-2.columns
+        %span.prefix
+          %i.fi-lock
+      .small-10.columns
+        %input{:placeholder => "password", :type => "password", :min_length => 8, :id=>'password', :autocomplete => "off", :name=>'user[password]'}
+    .row.collapse
+      .small-2.columns
+        %span.prefix
+          %i.fi-lock
+      .small-10.columns
+        %input{:placeholder => "confirm password", :type => "password", :id=>'password_confirmation', :autocomplete => "off", :name=>'user[password_confirmation]'}
+  .row
+    .large-12.columns
+      #signup-button.button Sign Up
+      = render "devise/shared/links"
+:css
+  #terms {
+    float:left;
+
+  }
+  #signup-button {
+    clear:both;
+    margin: 0px !important;
+  }
+
+:javascript
+  $.validator.addMethod("regx", function(value, element, regexpr) {
+      return regexpr.test(value);
+  }, "Password must contain 8 characters with letters & numbers");
+  $(document).on('ready page:load', function(){
+      $("#new_user").validate({
+
+        rules: {
+          "user[email]": {
+            required: true,
+            email: true
+          },
+          "user[username]": {
+            required: true,
+            minlength: 6,
+            maxlength: 12
+          },
+          "user[password]": {
+            required: true,
+            regx: /^(?=.*\d)(?=.*[a-z])\w{8,}$/
+          },
+          "user[password_confirmation]": {
+            equalTo:'#password'
+          }
+        },
+
+       });
+    document.getElementById("password").onchange = validatePassword;
+    document.getElementById("password_confirmation").onchange = validatePassword;
+
+    $('#signup-button').on('click', function() {
+
+      if($('#new_user').valid()) {
+        $('#new_user').submit();
+      }
+    });
+  });
+
+  function validatePassword(){
+    var pass2=document.getElementById("password_confirmation").value;
+    var pass1=document.getElementById("password").value;
+    if(checkPassword(pass1)) {
+      if(pass1!=pass2)
+        document.getElementById("password_confirmation").setCustomValidity("Passwords Don't Match");
+      else
+        document.getElementById("password_confirmation").setCustomValidity('');
+    }
+    else {
+      document.getElementById("password").get(0).setCustomValidity("Password Not Valid");
+      console.log($('#new_user').valid());
+    }
+  }
+  function checkPassword(str)
+  {
+    // at least one number, one lowercase and one uppercase letter
+    // at least six characters
+    var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+    return re.test(str);
+  }

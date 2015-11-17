@@ -1,0 +1,89 @@
+%footer.footer
+  .row
+    .small-12.medium-6.large-6.columns
+      %p.logo
+        %i.fi-shield
+        Presidential Election Games
+      %p.footer-links
+        =link_to "About", pages_path("about")
+        =link_to "How it Works", pages_path("how-it-works")
+        =link_to "Privacy Policy", pages_path("privacy")
+        =link_to "Contact Us", '/contact-us'
+        -if user_signed_in?
+
+          = link_to "Log out", destroy_session_path(:user), :method => :delete
+
+    .small-12.medium-6.large-6.columns
+      %ul.contact
+        %li
+          %p
+            %i.fi-social-facebook>
+            facebook.com/ElectionGames2016
+        %li
+          %p
+            %i.fi-social-twitter>
+            twitter.com/ElectionGames
+        %li
+          %p
+            %i.fi-social-reddit>
+
+  .row{:style=>'margin-top:15px;'}
+    .large-12.columns.text-center
+      %span{:style=>'color:#eee;'} Copyright © 2015 A Playground for the Mind
+
+#login.reveal-modal.remove-whitespace{"data-reveal" => ""}
+  .row
+    .large-6.columns.auth-plain
+      .signup-panel.left-solid
+        %p.welcome Registered Users
+        %form#login-form
+          .row.collapse
+            .small-2.columns
+              %span.prefix
+                %i.fi-torso-female
+            .small-10.columns
+              %input{:placeholder => "username", :type => "text", :id =>'login-username'}
+          .row.collapse
+            .small-2.columns
+              %span.prefix
+                %i.fi-lock
+            .small-10.columns
+              %input{:placeholder => "password", :type => "password", :id => 'login-password'}
+        %a.button{:href => "#",:id=>'login-button'} Log In
+    .large-6.columns.auth-plain
+      .signup-panel.newusers
+        %p.welcome No account... yet?
+        %p Why not sign up and exercise your first ammendment right to have some fun?  It's easy!
+        =link_to new_user_registration_path, :class=>'button' do
+          Sign Up
+  %a.close-reveal-modal ×
+
+
+
+:javascript
+  $('#login-button').on('click', function() {
+    var data = {
+      user: {login: $('#login-username').val(), password: $('#login-password').val(), remember_me: '1'}
+    }
+
+    $.ajax({ url: '/users/sign_in',
+      type: 'POST',
+      headers: {
+          'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
+        },
+      data: data,
+      success: function(response) {
+        $('#login').foundation('reveal','close');
+        $('.menu ul.inline-list').empty();
+        setTimeout(function() {
+           $('.menu ul.inline-list').html('#{escape_javascript render :partial=>"users/header_menu"}');
+           window.location = '#{root_path}';
+        }, 1000);
+
+
+      },
+      error: function(xhr, status, error) {
+          alert(xhr.responseText);
+       }
+    });
+  });
