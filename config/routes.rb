@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   devise_for :users,
-    :controllers => { :registrations => "registrations", :sessions => "sessions" }
+    :controllers => { :registrations => "registrations", :sessions => "sessions",omniauth_callbacks: 'omniauth_callbacks' }
   resources :users do
     member do
       post 'upload_file'
@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get '/pages/:page_name' => 'pages#index', :as => :pages
   get '/posts/:category/:tag' => 'posts#index', :as => :filtered_posts
   get '/sitemap.xml' => 'pages#sitemap'
+  match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

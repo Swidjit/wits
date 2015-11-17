@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
-  before_action :set_user, only: [:edit, :update, :destroy, :finish_signup]
+  before_action :set_user, only: [:show, :edit, :update, :destroy,:finish_signup]
+  before_filter :ensure_signup_complete, only: [:new, :create, :update, :destroy]
   respond_to :js
 
   def show
@@ -26,6 +27,22 @@ class UsersController < ApplicationController
     end
   end
 
+  # GET/PATCH /users/:id/finish_signup
+  def finish_signup
+    # authorize! :update, @user
+    if request.patch? && params[:user] #&& params[:user][:email]
+      if @user.update(user_params)
+
+        sign_in(@user, :bypass => true)
+        redirect_to root_path, notice: 'Your profile was successfully updated.'
+      else
+        @show_errors = true
+      end
+
+    else
+
+    end
+  end
 
   # DELETE /users/:id.:format
   def destroy

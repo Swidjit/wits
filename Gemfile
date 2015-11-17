@@ -17,6 +17,9 @@ gem 'acts-as-taggable-on', '~> 3.4'
 gem 'contact_us', '~> 1.0.1'
 
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-facebook'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
