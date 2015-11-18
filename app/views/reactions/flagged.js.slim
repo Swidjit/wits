@@ -1,0 +1,5 @@
+|
+	$('#post-#{@post.id} .#{@class} .count').html("#{@count}");
+	$('#post-#{@post.id} .flag-options').toggle();
+	$.notification({ message:"thanks for your input!", type:"success" });
+	

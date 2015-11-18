@@ -12,6 +12,9 @@ Rails.application.routes.draw do
     collection do
       get 'autocomplete_tag_search'
     end
+    member do
+      post 'create_or_destroy_reaction'
+    end
   end
   resources :comments, :only => [:create, :destroy]
 

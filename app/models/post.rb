@@ -2,6 +2,8 @@ class Post < ActiveRecord::Base
 
   belongs_to :user
 
+  has_many :reactions
+
   acts_as_commentable
   acts_as_taggable
 
