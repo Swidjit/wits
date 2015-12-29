@@ -4,6 +4,7 @@ class Game < ActiveRecord::Base
   has_many :votes,:as => :voteable, :dependent => :delete_all
   has_many :board_suggestions, :dependent => :delete_all
   has_many :game_improvements, :dependent => :delete_all
+  has_many :game_stats
 
   acts_as_commentable
 

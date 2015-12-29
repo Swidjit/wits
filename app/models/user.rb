@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :reactions
   has_many :flag_votes
+  has_many :game_stats
   has_many :awards, :dependent => :delete_all
   has_many :notifications, :foreign_key => :receiver_id, :dependent => :delete_all
   has_many :familiarities, :dependent => :delete_all

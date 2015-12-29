@@ -23,6 +23,7 @@ namespace :games do
 
   end
 
+
   desc "give out awards"
   task :give_awards => :environment do
     Award.delete_all
