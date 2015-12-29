@@ -1,0 +1,3 @@
+namespace :stats do
+
+end

@@ -1,0 +1,21 @@
+
+.message-user
+  
+  - if conversation.recipient_id == -1
+    | message from system admin
+  - elsif conversation.user_id == current_user.id
+    | message with
+    =link_to "@#{User.find(conversation.recipient_id).name}", profile_path(User.find(conversation.recipient_id).name)
+  - else
+    | message with
+    =link_to "@#{conversation.user.name}", profile_path(conversation.user.name)
+.message-date
+  =time_ago_in_words(conversation.messages.first.created_at)
+  | ago
+.message-text
+  -if conversation.unread_message_count(current_user) > 0
+    =link_to conversation_path(conversation), :remote=>:true, :class => 'message-name', :"data-count"=> conversation.unread_message_count(current_user) do
+      = conversation.messages.first.body
+  -else
+    =link_to conversation_path(conversation), :remote=>:true, :class => 'message-title' do
+      = conversation.messages.first.body

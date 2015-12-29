@@ -14,7 +14,18 @@
 
 
   %body
+
     =render :partial => 'shared/head'
-    = yield
+
+    .row
+      .large-12.columns{:style=>'margin: 5px 0;'}
+
+        = yield :breadcrumbs
+    .row
+      #notice
+        = flash_notifications
+      .large-12.columns
+        = yield
+
     =render :partial => 'shared/footer'
 

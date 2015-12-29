@@ -1,0 +1,91 @@
+-content_for :breadcrumbs do
+	=link_to "All Games", games_path
+	'>
+	=link_to "#{@board.game.title}", game_path(@board.game) 
+	'>
+	=link_to "Board ##{@board.id}", game_board_path(@board)
+.row
+	.large-9.columns
+		.game-info.blue-green
+			.game-title
+				=@board.game.title
+			.game-description
+				=@board.game.description	
+		.light-blue
+				=render :partial => 'games/'+@board.game.title.downcase + '_details'
+	.large-3.columns
+		.stats-box.dark-blue
+			h3 game board stats
+			.stat-label dates
+			.stat-data 
+				| #{(@board.start_date).strftime("%m/%d/%y")} - #{(@board.end_date).strftime("%m/%d/%y")}
+			.clear
+			.stat-label number posts
+			.stat-data =@board.posts.size
+			.clear
+			.stat-label popularity
+			.stat-data 100
+	.large-9.columns
+		h4 responses
+		#masonry-container
+			-@posts.each do |post|
+				= render :partial => 'posts/just_the_response_masonry', :locals => {post:post}
+			
+	.large-9.columns
+
+javascript:
+	$('#masonry-container').masonry({
+	    itemSelector: '.post',
+	    isAnimated: !Modernizr.csstransitions,
+	    isFitWidth: true,
+		gutterWidth: 5,
+	    columnWidth: function() {
+
+		    console.log($('#masonry-container').width() / 2);
+		    return $('#masonry-container').width() / 2;
+		    
+	  	}
+	    
+	  });	
+	
+
+
+	
+	
+	$(document).ready(function() {
+  		var page = 1;
+      	loading = false;
+
+
+	  function nearBottomOfPage() {
+	    return $(window).scrollTop() > $(document).height() - $(window).height() - 200;
+	  }
+	
+	  $(window).scroll(function(){
+	    if (loading) {
+	      return;
+	    }
+	
+	    if(nearBottomOfPage()) {
+	      loading=true;
+	      page++;
+			jQuery.ajax({
+			    type: "GET",
+			    url: "#{game_board_path(@board)}?page="+ page,
+			    dataType: 'html',
+			    cache: false,
+			    success: function (html) {
+			        if (html.length > 0) {
+			        	loading=false;	
+			            var el = jQuery(html);
+			            
+			            jQuery("#masonry-container").append(el).masonry( 'appended', el, true );
+			        }
+			    }
+			});		      
+	    }
+	    
+	    
+	  });
+	});
+		

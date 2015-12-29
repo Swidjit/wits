@@ -1,0 +1,9 @@
+=link_to profile_path(current_user.name) do
+	=icon('heart', '', class: 'fa-2x fa-fw inline side-pads')
+	.label profile
+=link_to edit_user_path(current_user) do
+	=icon('gear', '', class: 'fa-2x fa-fw inline side-pads')
+	.label settings
+=link_to destroy_user_session_path, :method => :delete do
+	=icon('user', '', class: 'fa-2x fa-fw inline side-pads')
+	.label logout

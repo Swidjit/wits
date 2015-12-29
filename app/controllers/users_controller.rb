@@ -5,12 +5,51 @@ class UsersController < ApplicationController
   respond_to :js
 
   def show
-    @user = User.find_by_username(params[:id])
-    puts @user
+    @user = User.where(:username=>params[:display_name]).first
+
+    #entries by user
+    if current_user == @user
+      @posts = Post.unscoped.where(:user_id => @user.id).order("created_at DESC")
+    else
+      if user_signed_in?
+        @subscription = current_user.subscriptions.where(:subscription_id => @user.id).first
+      end
+      @posts = @user.posts
+    end
+    #entries loved by user
+    ids = @user.reactions.shared.map(&:post_id)
+    @fav_posts = Post.find(ids)
   end
 
   def edit
+    @user = User.find_by_username(params[:id])
+  end
 
+  def index
+    @users = User.all
+    user_hash = Subscription.where('subscription_type=?','user').group('subscription_id').order('count_subscription_id desc').count('subscription_id')
+    user_ids = user_hash.keys.sort {|a, b| user_hash[b] <=> user_hash[a]}
+    @popular_users = User.where('id in (?)',user_ids)
+    if user_signed_in?
+      ids = current_user.subscriptions.where(:subscription_type => "user").map(&:subscription_id)
+      puts "jey"
+      puts ids
+      @user_subscriptions = User.where("id IN (?)", ids)
+    end
+  end
+
+
+  def search
+    @users = User.find(:all, :conditions => ['name ILIKE ? or first_name ILIKE ? or last_name ILIKE ?', "%#{params[:name]}%","%#{params[:name]}%","%#{params[:name]}%"])
+    render file: 'users/search.json.rabl'
+  end
+
+  def notifications
+    @notifications = current_user.notifications.includes(:sender,:notifier).reverse_order
+    @notifications.each do |n|
+      n.read = true
+      n.save!
+    end
   end
 
   def update
@@ -55,7 +94,7 @@ class UsersController < ApplicationController
   end
 
   def autocomplete
-    @users = User.where("username LIKE (?) or first_name LIKE (?) or last_name LIKE (?)","%#{params[:q]}%","%#{params[:q]}%","%#{params[:q]}%")
+    @users = User.where("username LIKE (?) or first_name LIKE (?)","%#{params[:q]}%","%#{params[:q]}%")
     render file: 'users/search.json.rabl'
   end
 
@@ -68,7 +107,7 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.find(params[:id])
+    @user = User.find_by_username(params[:id])
   end
 
   def user_params

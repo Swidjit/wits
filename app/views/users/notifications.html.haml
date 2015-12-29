@@ -1,0 +1,12 @@
+%ul
+  -@notifications.each do |notification|
+    -case notification.notifier_type
+      -when 'Comment'
+        %li
+          #{User.find(notification.sender_id).name} commented on your response to "#{Post.find(Comment.find(notification.notifier_id).commentable_id).game_board.content}"
+      -when 'Award'
+        %li
+          You were awarded "#{notification.notifier_action}" for your recent entry
+      -when 'Reaction'
+        %li
+          #{notification.sender.name} "#{notification.notifier_action}" your recent entry

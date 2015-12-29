@@ -1,0 +1,9 @@
+.offer-message
+  .offer-message-meta
+    =link_to message.user.name, profile_path(message.user.name)
+    .offer-message-meta-timestamp
+      = message.created_at.strftime("%m/%d/%Y %l:%M %p")
+
+  .offer-message-text
+    
+    =message.body.gsub("<","&lt;").gsub(">","&gt;").gsub("\n","<br />").html_safe

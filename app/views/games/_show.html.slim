@@ -1,0 +1,3 @@
+h2 all games
+-@games.each do |game|
+  =render :partial => 'feed_layout', :locals => {:game => game}

@@ -1,0 +1,28 @@
+.post.flaggable
+	div id="post-#{post.id}" 
+		=link_to game_path(post.game_board.game) do
+			.game-info.blue-green
+				.game-title.subtle
+					=post.game_board.game.title
+				.game-description.subtle
+					=post.game_board.game.description	
+		.clear		
+		.post-question.light-blue
+			-@board = post.game_board
+			=render :partial => 'games/'+@board.game.title.downcase.tr(' ', '_') + '_details'
+		=link_to post_path(post) do
+			.post-answer.light-red
+				.padded =post.body
+		.post-actions
+			=render :partial => 'posts/post_actions', :locals=>{post:post}
+		.flag-options
+			.close
+				i.fi-x
+			button
+				=link_to post_create_or_destroy_reaction_path(post.id, :type => "off-topic"),  {:remote=>"true",:method => "post"} do
+					h4 this post is off-topic
+					p does not comply with the game rules
+			=link_to post_create_or_destroy_reaction_path(post.id, :type => "offensive"),  {:remote=>"true",:method => "post"} do
+				h4 this post is offensive
+				p racist, sexist, vulgar or otherwise hateful/demeaning
+			

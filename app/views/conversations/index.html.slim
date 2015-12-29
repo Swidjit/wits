@@ -1,0 +1,29 @@
+
+
+=content_for :page_title do
+  = image_tag 'messages.svg', :width => "25px",:height => "auto"
+  h1 Your Messages
+  .page_sub_heading
+    | An archive of the various private conversations you've had with other users about content on the site.
+  .new-message class="green-button" 
+    | new message
+    
+
+
+#messages
+
+  div#message style=("width:58%;float:left; margin-right: 1%;") 
+    h4.padless
+    - if @conversations.empty?
+      | You have no messages
+    - else
+      = render :partial => 'message_thread', :locals => {conversation:@loaded_conversation}
+  div style=("width:40%; float:left;") 
+    -unless @conversations.empty?
+      input#search-messages type='text' placeholder=('search your messages') 
+        #search-results
+      #message-list
+        = render :partial => 'message_list',:locals => {conversations:@conversations}
+
+
+  

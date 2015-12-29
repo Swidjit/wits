@@ -1,0 +1,54 @@
+#topbar
+	#content-menu
+		ul.right
+	      	li= link_to games_path, :class=> "light-blue games-menu" do
+	      		i.fi-star
+	      	li= link_to posts_path, :class=> "red posts-menu" do
+	      		i.fi-star
+	      	li= link_to stats_path, :class=> "green stats-menu" do
+	      		i.fi-star
+	      	li= link_to users_path, :class=> "blue-green users-menu" do
+	      		i.fi-star
+	#games-menu.light-blue.games-menu
+		=render 'shared/games_menu'
+	#posts-menu.red.posts-menu
+		=render 'shared/posts_menu'
+	#stats-menu.green.stats-menu
+		=render 'shared/stats_menu'
+	#users-menu.blue-green.users-menu
+		=render 'shared/users_menu'				
+	#logo
+		= link_to root_path
+			=image_tag('game-logo.png')
+		
+	-if user_signed_in?
+		#user-menu
+			ul.right
+		      	li= link_to profile_path(current_user.name), :class=> "personal-menu blue-green" do
+		      		i.fi-star
+		      	li= link_to user_conversations_path(current_user), :class=> "green messages-menu" do
+		      		i.fi-star
+
+		      	li= link_to user_notifications_path(current_user.name),:class=> "red notifications-menu" do
+		      		i.fi-star
+
+		      	li= link_to edit_user_path(current_user), :class=> "light-blue about-menu" do
+		      		i.fi-star
+     
+
+		#messages-menu.green.messages-menu
+			=render 'users/messages_window'
+		#notifications-menu.red.notifications-menu
+			=render 'users/notifications_window'
+		#personal-menu.blue-green.personal-menu
+			=render 'shared/personal_menu'
+		#about-menu.light-blue.about-menu
+			=render 'shared/about_menu'
+	
+
+										
+	-else
+		=link_to new_user_session_path
+			#login-button
+				button.light-blue.small login/signup							
+		

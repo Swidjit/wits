@@ -1,0 +1,6 @@
+%h2 new broadcast
+#message-text
+  =form_for :offer, :url => send_broadcast_path,:html => {:id => "message-form"} do |f|
+    = f.text_area :text, :id => 'text', :name => 'text', :class => 'message-form',:placeholder => 'say something PRIVATELY to this user'
+    %input{:type => 'hidden', :name => 'user_id', :id => 'user-id'}
+    = f.submit 'Send Message'  

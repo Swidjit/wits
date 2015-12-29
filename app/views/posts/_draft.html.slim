@@ -1,0 +1,9 @@
+div class="post" style = "margin-bottom:20px;"
+	div id="post-#{post.id}" 
+		
+		.post-answer.light-red style="min-height: 100px"
+			.padded 
+				=post.body
+			.padded
+				=link_to game_board_path(post.game_board) do
+					button.small edit response

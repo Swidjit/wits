@@ -1,0 +1,166 @@
+.new-message {
+position: absolute;
+right: 0px;
+top: 5px;
+width: 120px;
+color: #333545 !important;
+}
+
+.new-message {
+  pointer-events: auto;
+}
+.username {
+  img {
+    width: 25px !important;
+    height: 25px !important;
+  }
+  display:block !important;
+  line-height: 28px;
+  text-indent: 20px;
+  border-bottom: 1px solid #DDD;
+}
+
+.message-date {
+  display: inline;
+  position: absolute;
+  right: 5px;
+  top: 0px;
+margin-right: 15px;
+font-size: 13px;
+}
+.message-user {
+  display: inline;
+  position: absolute;
+  left: 7px;
+  top: 0px;  
+  font-size: 14px;
+}
+.message-item {
+  position: relative;
+  height: 60px;
+}
+.message-name,.message-title {
+  position:relative;
+  top: 20px;
+  height: 80px;
+}
+
+.message-text {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  height: 80px;
+    
+}
+
+#message-threads {
+
+  right: 5px;
+  top: 60px;
+  left: 60%;
+}
+
+#search-messages {
+
+}
+#messages {
+  margin-top: 13px;
+}
+.message-thread {
+  margin-top:15px;
+}
+.message-name {
+  margin-top:15px;
+  width: 400px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.message-item {
+  line-height: 40px;
+  padding-left: 10px;
+  margin-right: 15px;
+  opacity: .85;
+}
+.message-item:hover {
+  opacity: 1;
+}
+.message-item img {
+  display: inline-block;
+}
+.message-item-name {
+  display: block;
+  float: left;
+  text-align: right;
+  font-size: 16px;
+  width: 160px;
+  padding-left: 40px;
+  padding-right: 10px;
+}
+.message-item-name img {
+  vertical-align: middle;
+}
+.message-item-threads {
+  float: left;
+  border-left: 1px solid #ccc;
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
+.message-item-threads img {
+  vertical-align: middle;
+  margin-left: 20px;
+}
+
+.offer-message {
+  clear:both;
+
+}
+.offer-message-meta {
+  float: left;
+  text-align: right;
+  font-size: 15px;
+  width: 120px;
+  padding-top: 6px;
+}
+.offer-message-meta-timestamp {
+  font-size: 12px;
+}
+.offer-message-text {
+  margin-left: 130px;
+  border-left: 1px solid #ccc;
+  padding: 10px 10px 30px 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.offer-message-time {
+  font-size: 12px;
+  color: #D66C67;
+}
+.offer-message:last-child .offer-message-text {
+  border-bottom: none;
+}
+.message-reply {
+
+  position: relative;
+  height: 65px;
+}
+.message-reply label {
+  display: block;
+  font-size: 14px;
+  width: 100px;
+  text-align: right;
+}
+.message-reply textarea {
+  border: 1px solid #ccc;
+  position: absolute;
+  top: 10px;
+  left: 120px;
+  right: 0px;
+  resize: none;
+  height: 45px;
+}
+.message-reply input[type="submit"] {
+  position: absolute;
+  left: 0px;
+  top: 18px;
+}

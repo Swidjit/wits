@@ -1,0 +1,8 @@
+h2 edit user #{@user.name}
+
+= simple_form_for @user, :remote => true do |f| 
+  = f.input :name, :hint => "must be unique" 
+  = f.input :first_name
+  = f.input :last_name
+  = f.input :about
+  = f.button :submit

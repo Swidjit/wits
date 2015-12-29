@@ -1,0 +1,10 @@
+div id="voteable-#{obj.id}" class="vote-bar"
+
+	=link_to up_votes_path(:model_type => obj.class, :model_id => obj.id), :remote=>:true, :method => "post" do
+		.upvote
+			i.fi-like
+			.count =obj.votes.up.size
+	=link_to down_votes_path(:model_type => obj.class, :model_id => obj.id), :remote=>:true,  :method => "post" do
+		.downvote
+			i.fi-like
+			.count =obj.votes.down.size

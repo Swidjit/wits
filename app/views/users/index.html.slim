@@ -1,0 +1,64 @@
+#user-search-box
+	input#search_people type='text' placeholder=('search by name or username') style="margin-bottom:0px;"
+	    #search_result
+.col-33.light-red
+	.title all users
+	-@users.each do |usr|
+		=render :partial => "users/overview", :locals => {:user => usr}
+-if user_signed_in?
+	.col-33.light-gray
+		.title users you follow
+		-@user_subscriptions.each do |usr|
+			=render :partial => "users/overview", :locals => {:user => usr}
+.col-33.light-blue
+	.title most popular users
+	-@popular_users.each do |usr|
+		=render :partial => "users/overview", :locals => {:user => usr}
+	
+javascript:
+  $(document).ready(function(){
+
+    jQuery(function(){
+      jQuery('input#search_people')
+        .data('timeout', null)
+        .keyup(function(){
+            clearTimeout(jQuery(this).data('timeout'));
+            jQuery(this).data('timeout', setTimeout(function(){
+
+             //timeout function
+             $.post('/users/autocomplete', { name: $("input#search_people").val()}, function(data) {	
+             	console.log(data);
+                Jaml.register('user', function(user) {
+            		console.log(user.user);
+                  a({href: ("/" + user.user.username), cls: "place_your_class"},
+                    div({cls: "place_your_class"},
+                      span("@",user.user.username)
+                      )
+                    )
+                });
+
+                 if(data.length > 0){
+                   $("#search_result").html("people maching '"+ $("input#search_people").val() + "'")
+                   $(data).each(function(idx, d){
+                     if(d.profile_pic_id == null){
+                       d.profile_pic_id = "/assets/images/profile.svg" //place you default img
+                     }	
+					
+
+                     $("#search_result").append(Jaml.render('user',d));
+                   })
+                 }else{
+                   $("#search_result").html("no result")
+                 }
+
+                 }, "json");
+
+            //timeout function
+
+            }, 500));
+        });
+    });
+
+
+  });	
+	

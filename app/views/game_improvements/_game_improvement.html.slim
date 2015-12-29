@@ -1,0 +1,6 @@
+div class="improvement" id="improvement-#{game_improvement.id}"
+	blockquote =game_improvement.improvement
+	=render :partial => 'votes/vote_bar', :locals => {obj:game_improvement}
+	-if game_improvement.user == current_user
+		=link_to game_improvement_path(game_improvement), :method => "delete", :remote=>'true' do
+			.delete =icon('close')

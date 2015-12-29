@@ -1,0 +1,189 @@
+-content_for :head do
+	meta property="og:url" content="#{@board}"
+	meta property="og:site_name" content="Witss	zi"
+	meta proprty="og:image" content="raccoon.jpg"
+	fb-root
+-content_for :breadcrumbs do
+	ul
+	  li=link_to "All Games", games_path
+	  li=link_to "#{@board.game.title}", game_path(@board.game)
+	  li=link_to "Board ##{@board.id}", game_board_path(@board)
+
+
+.col-75
+	.game-info.blue-green
+		.game-title
+			=@board.game.title
+		.game-description
+			=@board.game.description	
+	.game-content.light-blue
+			=render :partial => 'games/'+@board.game.title.downcase.tr(' ', '_') + '_details'
+	.game-action-bar.green
+		.left
+			.fbook 
+				div class="fb-share-button" data-href="#{request.original_url}" data-layout="button_count"
+			a class="twitter-share-button" href="#{request.original_url}" data-text="fun #games of #wit and #creativity @witzi" tweet
+		.right
+			=render :partial => 'votes/vote_bar', :locals => {obj:@board}
+	-if user_signed_in?
+	
+		#response.red
+			-if @existing_post
+				=render :partial => 'posts/editable', :locals => {:post=> @existing_post}
+			
+			-else
+				#new-post
+					= form_for :post,:url => url_for(:controller => 'posts', :action => 'create') do |f| 
+					  	|		
+					    = f.text_area :body, :id => "post-body", :placeholder => "enter your wit here"
+					    = f.hidden_field :game_board_id, :value => @board.id
+					    = f.hidden_field :user_id, :value => current_user.id
+					    #save-post
+					    	= f.submit "save", :class => 'button small'
+					  
+					button.small id="open-workspace" open workspace
+				#char-count
+	-else
+		#login-to-play
+			button.red login to play
+			p join for free to post, comment, share and more
+.col-25
+	.stats-box.dark-blue
+		h3 game board stats
+		.stat-label ranking:
+		.stat-data 100
+		.clear
+		.stat-label number posts:
+		.stat-data =@board.posts.size
+		.clear
+		.stat-label end time:
+		.stat-data =(@board.start_date + @board.duration.hours).strftime("%m/%d/%Y %H:%M")
+.col-75
+	.title other active #{@board.game.title} boards	
+	
+	-@board.game.game_boards.active.where('id != ?',@board.id).limit(2).each do |g|
+		=render :partial => 'game_boards/basic_layout', :locals => {board: g}
+	.clear
+	.title recently ended #{@board.game.title} boards	
+	-@board.game.game_boards.expired.limit(2).each do |g|
+		=render :partial => 'game_boards/basic_layout', :locals => {board: g}
+.col-25
+
+						
+
+-if user_signed_in?
+	#workspace.reveal-modal data-reveal=''
+		a.close-reveal-modal ×	
+		p we will automatically save this every minute
+		=form_for @workspace do |f|
+			=f.text_area :body, :id => "workspace-input"
+
+javascript:
+	$(document).ready(function() {
+	//facebook code
+	(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=354438254722912&version=v2.0";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+	
+	//twitter code
+	window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
+	
+	
+	});
+	
+
+
+-if user_signed_in?		
+	javascript:
+	    $(document).ready(function() {
+			 
+			$('#open-workspace').click(function() {
+				$('#workspace').foundation('reveal','open');
+				var myInterval = setInterval(saveWorkspace,60000);
+				$('#workspace-input').focus();
+			});  
+
+	    });
+	    		
+
+		 
+	    function saveWorkspace() {
+	    
+			jQuery.ajax({
+			    type: "PUT",
+			    url: "#{workspace_path(@workspace)}",
+			    data: "body="+$('#workspace-input').val(),
+			    dataType: 'html',
+			    cache: false
+			});	  
+		} 
+		
+-if @board.content_limit
+	-if @board.content_limit> 0
+		//hack, presumably these are all word limited rather than chracter limited
+		
+		-if @board.content_limit < 10
+			javascript:
+				
+				(function($){
+					$.fn.textareaCounter = function(options) {
+						// setting the defaults
+						// $("textarea").textareaCounter({ limit: 100 });
+						var defaults = {
+							limit: 100
+						};	
+						var options = $.extend(defaults, options);
+				 
+						// and the plugin begins
+						return this.each(function() {
+							var obj, text, wordcount, limited;
+							
+							obj = $(this);
+							
+							obj.keyup(function() {
+							    text = obj.val();
+							    if(text === "") {
+							    	wordcount = 0;
+							    } else {
+								    wordcount = $.trim(text).split(" ").length;
+								}
+							    if(wordcount > options.limit) {
+							        $("#char-count").html('<span style="color: #DD0000;">0 words left</span>');
+									limited = $.trim(text).split(" ", options.limit);
+									limited = limited.join(" ");
+									$(this).val(limited);
+							    } else {
+							        $("#char-count").html((options.limit - wordcount)+' words left');
+							    } 
+							});
+						});
+					};
+				})(jQuery);
+				$("#post-body").textareaCounter({ limit: #{@board.content_limit} });
+
+		-else
+			javascript:
+				(function($) {
+				    $.fn.extend( {
+				        limiter: function(limit, elem) {
+				            $(this).on("keyup focus", function() {
+				                setCount(this, elem);
+				            });
+				            function setCount(src, elem) {
+				                var chars = src.value.length;
+				                if (chars > limit) {
+				                    src.value = src.value.substr(0, limit);
+				                    chars = limit;
+				                }
+				                elem.html( limit - chars + " chars left" );
+				            }
+				            setCount($(this)[0], elem);
+				        }
+				    });
+				})(jQuery);   	
+				var elem = $("#char-count");
+				$("#post-body").limiter(#{@board.content_limit}, elem);

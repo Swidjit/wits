@@ -1,0 +1,22 @@
+.post.col3
+	div id="post-#{post.id}"	
+		
+		
+		.post-question.light-blue
+			.game-title.subtle
+				=post.game_board.game.title
+			.game-description.subtle
+				=post.game_board.game.description	
+			.clear
+					
+			.padded =post.game_board.content
+		=link_to post_path(post) do
+			.post-answer.light-red
+				.padded =post.body
+		.post-flagged.green
+			| this post has been flagged as inappropriate. 
+			h5 do you agree?
+			=link_to post_flag_vote_path(post, :vote=>'yes'), :method=>'post', :remote => :true do
+				button.small.flag-yes style="margin-right:8px;" yes 
+			=link_to post_flag_vote_path(post, :vote=>'no'), :method=>'post', :remote => :true do	
+				button.small.flag-no no

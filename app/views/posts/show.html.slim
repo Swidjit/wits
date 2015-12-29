@@ -1,0 +1,70 @@
+
+-content_for :breadcrumbs do
+	=link_to "All Games", games_path
+	'>
+	=link_to "#{@game_name}", game_path(@post.game_board_id)
+	'>
+	=link_to "Board ##{@post.game_board_id}", game_board_path(@post.game_board)
+	'>
+	=link_to "@#{@post.user.username}", profile_path(@post.user.username)
+.full-post
+	div id="post-#{@post.id}" class="post-box"
+		.post-question.light-blue
+			p="Q: #{@post.game_board.content}"
+
+			.question-link
+				=link_to game_board_path(@post.game_board)
+					button go to this game board		
+		.post-answer.light-red
+			h2=@post.body
+		.post-reactions.green
+			.flag
+				i.fi-flag
+				.count =@post.reactions.off_topic.size
+			=link_to post_create_or_destroy_reaction_path(@post.id, :type => "like"),  {:remote=>"true",:method => "post"} do
+				.like 
+					i.fi-like
+					.count =@post.reactions.liked.size
+			=link_to post_create_or_destroy_reaction_path(@post.id, :type => "love"),  {:remote=>"true",:method => "post"} do
+				.love
+					i.fi-heart
+					.count =@post.reactions.loved.size
+			=link_to post_create_or_destroy_reaction_path(@post.id, :type => "share"),  {:remote=>"true",:method => "post"} do
+				.share 
+					i.fi-share
+					.count =@post.reactions.shared.size
+
+		.post-meta.light-gray
+			| by 
+			=link_to "@#{@post.user.username}", profile_path(@post.user.username)
+		.flag-options
+			h3 what's your quarrel with this post?
+			=link_to post_create_or_destroy_reaction_path(@post.id, :type => "off-topic"),  {:remote=>"true",:method => "post"} do
+				h4 this post is off-topic
+				p does not comply with the game rules
+			=link_to post_create_or_destroy_reaction_path(@post.id, :type => "offensive"),  {:remote=>"true",:method => "post"} do
+				h4 this post is offensive
+				p racist, sexist, vulgar or otherwise hateful/demeaning
+
+	.clear style ="height: 15px;"
+	-if current_user == @post.user
+		.delete-post
+			=link_to post_path(@post), :method => "delete", :confirm => "you sure you want to delete this?" do
+				button.small delete this post			
+	-else
+		.follow-author
+			=link_to user_subscriptions_path(@post.user,:subscription_id => @post.user.id), :method => "post" do
+				button.small follow #{@post.user.username}	
+.clear style ="height: 15px;"
+.comments
+
+    = render :partial => 'comments/comment', :collection => @comments, :as => :comment
+    -if user_signed_in?
+    	= render :partial => 'comments/form', :locals => { :comment => @new_comment }
+javascript:
+	$('.post-question').hover(function() { 
+		$(this).closest('.post-box').find('.question-link').toggle();
+	});
+
+
+

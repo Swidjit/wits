@@ -1,0 +1,87 @@
+
+
+-content_for :breadcrumbs do
+	=link_to "All Games", games_path
+	| > 
+	=link_to "#{@game.title}", game_path(@game)
+.col-66	  
+	div id="game-#{@game.id}" class="game" style="width: 100%; padding: 0; margin-bottom: 15px;"
+	
+		.green
+			.game-feed-logo
+				=image_tag('profile.svg',:size=>'100x120')
+			.game-frame
+		
+				=link_to game_path(@game) do
+					.game-feed-header
+						.game-title
+							=@game.title
+						.game-description.subtle
+							=@game.description
+						.game-link
+							button game overview
+							.clear
+							| top players, best entries & game archives				
+				.clear
+				.game-instructions.more
+					| feugiat	 Quisque semper faucibus venenatis. Nunc sit amet rutrum urna. Quisque semper faucibus venenatis. Nunc sit amet rutrum urna.Quisque semper faucibus venenatis. Nunc sit amet rutrum urna.Quisque semper faucibus venenatis. Nunc sit amet rutrum urna.Quisque semper faucibus venenatis. Nunc sit amet rutrum urna.	
+		.game-votes
+			=render :partial => 'votes/vote_bar', :locals => {obj:@game}
+	.col-50
+		.title other active #{@game.title} boards
+		-@game.game_boards.each do |g|
+			=render :partial => 'game_boards/basic_layout', :locals => {board: g}
+	.col-50
+		.title recently expired games
+		-@game.game_boards.limit(5).each do |g|
+			=render :partial => 'game_boards/basic_layout', :locals => {board: g}
+	.clear		
+
+	.col-50
+		h4 got a content idea for this game?
+		=form_for :board_suggestion, :url => url_for(:controller => 'board_suggestions', :action => 'create'), :remote => "true" do |f|
+			=f.text_area :suggestion, :class => 'input-field'
+			=f.hidden_field(:game_id, :value => @game.id)
+			-if user_signed_in?
+				button.small suggest
+		-if !user_signed_in?
+			=link_to 'suggest', '#', :class=> 'button small', :'data-reveal-id' => 'login'	
+		=render @game.board_suggestions	
+	.col-50
+		h4 how can we improve this game format?
+		=form_for :game_improvement, :url => url_for(:controller => 'game_improvements', :action => 'create'), :remote => "true" do |f|
+			=f.text_area :improvement, :class => 'input-field'
+			=f.hidden_field(:game_id, :value => @game.id)
+			button.small suggest
+		=render @game.game_improvements
+	
+
+.col-33
+	.stats-box.dark-blue
+		h3 game stats
+		.stat-label num boards
+		.stat-data #{@num_played}
+		.clear
+		.stat-label times played
+		.stat-data #{@game.times_played}
+		.clear
+		.stat-label popularity
+		.stat-data =@popularity
+		.clear
+
+	h3 style="margin:15px 0 12px"
+		| Top Posts For #{@game.title}
+	
+	-@top_posts.each do |post|
+		=render :partial => 'posts/feed_layout', :locals => {:post=>post, :source=>"home"}
+	=link_to popular_posts_path(:game_id => @game.id)
+		button.small see all popular >
+	h3 style="margin:15px 0 12px"
+		| Recent Posts For #{@game.title}
+	
+	-@recent_posts.each do |post|
+		=render :partial => 'posts/feed_layout', :locals => {:post=>post, :source=>"home"}	
+	=link_to posts_path(:game_id => @game.id)
+		button.small see all recent >	
+		
+	

@@ -1,0 +1,6 @@
+|
+	$('.message-conversation').prepend('#{j render @message, :formats => :html}');
+	$('#message-body').val('').filter('[autofocus]').focus();
+	$('#send-message-button')[0].value = "reply"
+	$('#send-message-button')[0].disabled = false;
+

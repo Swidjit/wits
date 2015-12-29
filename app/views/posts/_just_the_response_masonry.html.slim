@@ -1,0 +1,33 @@
+.post style="width:50%"
+	div id="post-#{post.id}"	
+		=link_to post_path(post) do
+			.post-answer.light-red style="min-height: 100px"
+				.padded =post.body
+		.post-reactions.green
+			.flag
+				i.fi-flag
+				.count =post.reactions.off_topic.size
+			=link_to post_create_or_destroy_reaction_path(post.id, :type => "like"),  {:remote=>"true",:method => "post"} do
+				.like 
+					i.fi-like
+					.count =post.reactions.liked.size
+			=link_to post_create_or_destroy_reaction_path(post.id, :type => "love"),  {:remote=>"true",:method => "post"} do
+				.love
+					i.fi-heart
+					.count =post.reactions.loved.size
+			=link_to post_create_or_destroy_reaction_path(post.id, :type => "share"),  {:remote=>"true",:method => "post"} do
+				.share 
+					i.fi-share
+					.count =post.reactions.shared.size
+
+		.post-meta.light-gray
+			| by 
+			=link_to "@#{post.user.username}", profile_path(post.user.username)
+		.flag-options
+			h3 what's your quarrel with this post?
+			=link_to post_create_or_destroy_reaction_path(post.id, :type => "off-topic"),  {:remote=>"true",:method => "post"} do
+				h4 this post is off-topic
+				p does not comply with the game rules
+			=link_to post_create_or_destroy_reaction_path(post.id, :type => "offensive"),  {:remote=>"true",:method => "post"} do
+				h4 this post is offensive
+				p racist, sexist, vulgar or otherwise hateful/demeaning

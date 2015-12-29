@@ -1,29 +1,20 @@
 namespace :init do
 
   task :add_tags => :environment do
-    ActsAsTaggableOn::Tag.create(:name => "neuroscience")
-    ActsAsTaggableOn::Tag.create(:name => "puzzles")
-    ActsAsTaggableOn::Tag.create(:name => "brain-teasers")
-    ActsAsTaggableOn::Tag.create(:name => "research")
-    ActsAsTaggableOn::Tag.create(:name => "brain-fitness")
-    ActsAsTaggableOn::Tag.create(:name => "iq-tests")
-    ActsAsTaggableOn::Tag.create(:name => "optical-illusions")
-    ActsAsTaggableOn::Tag.create(:name => "memory")
-    ActsAsTaggableOn::Tag.create(:name => "executive-function")
-    ActsAsTaggableOn::Tag.create(:name => "problem-solving")
-    ActsAsTaggableOn::Tag.create(:name => "attention")
-    ActsAsTaggableOn::Tag.create(:name => "task-swtiching")
-    ActsAsTaggableOn::Tag.create(:name => "multi-tasking")
-    ActsAsTaggableOn::Tag.create(:name => "language")
-    ActsAsTaggableOn::Tag.create(:name => "spatial-processing")
-    ActsAsTaggableOn::Tag.create(:name => "reaction-speed")
-    ActsAsTaggableOn::Tag.create(:name => "sensory-perception")
-    ActsAsTaggableOn::Tag.create(:name => "pattern-recognition")
-    ActsAsTaggableOn::Tag.create(:name => "blogs")
-    ActsAsTaggableOn::Tag.create(:name => "games")
-    ActsAsTaggableOn::Tag.create(:name => "articles")
-    ActsAsTaggableOn::Tag.create(:name => "psychology")
-    ActsAsTaggableOn::Tag.create(:name => "neuroplasticity")
+    ActsAsTaggableOn::Tag.create(:name => "")
+  end
+
+  task :seed_games => :environment do
+    Game.create(:title=>'Sentenced', :description=>'Say something using all of these words.',:content_limit=>500)
+    Game.create(:title=>'Answer', :description=>'Respond to the question however you want',:content_limit=>250)
+    Game.create(:title=>'Aphorisms', :description=>'Coin a new expression.',:content_limit=>140)
+    Game.create(:title=>'Acronyms', :description=>'Make an ordinary word into an acronym',:content_limit=>0)
+    Game.create(:title=>'Tabooed', :description=>'Describe something without using the tabooed words',:content_limit=>250)
+    Game.create(:title=>'Almost Blank', :description=>'Say anything using these letters as a guide',:content_limit=>0)
+    Game.create(:title=>'Alliterary', :description=>'Answer using words with same first letter',:content_limit=>0)
+    Game.create(:title=>'Rename', :description=>'Make this object human',:content_limit=>0)
+    Game.create(:title=>'Captioned', :description=>'Provide a caption for this photo',:content_limit=>0)
+
   end
 
 end

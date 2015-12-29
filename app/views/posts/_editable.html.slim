@@ -1,0 +1,92 @@
+=form_for @existing_post, url: post_path(@existing_post), method: :put, remote: :true do |f|
+	=f.text_field :body, :id => "post-body"
+	=f.submit "update",:class =>'button small', :style => 'margin-right: 6px;'
+	#char-count
+#save-response
+	button.small save
+#delete-response 
+	=link_to post_path(@existing_post), :method => "delete", :confirm => "you sure you want to delete this?" do
+		button.small delete
+
+button.small id="open-workspace" open workspace
+#char-count	
+javascript:
+	$('#save-response').click(function() {
+		$('#save-response').css('display','none');
+		$('#edit-response').css('display','inline');
+	});
+	$('#edit-response').click(function() {
+		$('#save-response').css('display','inline');
+		$('#edit-response').css('display','none');
+	});
+	
+	$('.edit').bind("ajax:error", function(xhr, data){
+		errors = $.parseJSON(data.responseText).errors;
+		$.notification({ message:errors.body[0], type:"success" });
+	});
+	
+-if @existing_post.game_board.content_limit
+	-if @existing_post.game_board.content_limit> 0
+		//hack, presumably these are all word limited rather than chracter limited
+		
+		-if @existing_post.game_board.content_limit < 10
+			javascript:
+				
+				(function($){
+					$.fn.textareaCounter = function(options) {
+						// setting the defaults
+						// $("textarea").textareaCounter({ limit: 100 });
+						var defaults = {
+							limit: 100
+						};	
+						var options = $.extend(defaults, options);
+				 
+						// and the plugin begins
+						return this.each(function() {
+							var obj, text, wordcount, limited;
+							
+							obj = $(this);
+							
+							obj.keyup(function() {
+							    text = obj.val();
+							    if(text === "") {
+							    	wordcount = 0;
+							    } else {
+								    wordcount = $.trim(text).split(" ").length;
+								}
+							    if(wordcount > options.limit) {
+							        $("#char-count").html('<span style="color: #DD0000;">0 words left</span>');
+									limited = $.trim(text).split(" ", options.limit);
+									limited = limited.join(" ");
+									$(this).val(limited);
+							    } else {
+							        $("#char-count").html((options.limit - wordcount)+' words left');
+							    } 
+							});
+						});
+					};
+				})(jQuery);
+				$("#post-body").textareaCounter({ limit: #{@existing_post.game_board.content_limit} });
+
+		-else
+			javascript:
+				(function($) {
+				    $.fn.extend( {
+				        limiter: function(limit, elem) {
+				            $(this).on("keyup focus", function() {
+				                setCount(this, elem);
+				            });
+				            function setCount(src, elem) {
+				                var chars = src.value.length;
+				                if (chars > limit) {
+				                    src.value = src.value.substr(0, limit);
+				                    chars = limit;
+				                }
+				                elem.html( limit - chars + " chars left" );
+				            }
+				            setCount($(this)[0], elem);
+				        }
+				    });
+				})(jQuery);   	
+				var elem = $("#char-count");
+				$("#post-body").limiter(#{@existing_post.game_board.content_limit}, elem);

@@ -4,48 +4,132 @@
       %li
         %h1
           .hide-for-small
-            %i.fi-star{:style=>"font-size: 30px;position:relative;top:3px;  margin-right: 4px;margin-left: 8px;"}
-            =link_to 'Site Name', root_path
+            %b.fi-star{:style=>"font-size: 30px;position:relative;top:3px;  margin-right: 4px;margin-left: 8px;"}
+            =link_to 'witzi', root_path
           .show-for-small-only
 
             =link_to root_path do
-              %i.fi-star{:style=>"font-size: 30px;position:relative;top:3px;  margin-right: 4px;margin-left: 8px;"}
+              %b.fi-star{:style=>"font-size: 30px;position:relative;top:3px;  margin-right: 4px;margin-left: 8px;"}
       %li.toggle-topbar.menu-icon
         %a{:href => "#"}
           %span Menu
     %section.top-bar-section
-      %ul.left
+      %ul
+        %li.divider
+        %li.has-dropdown.small-dropdown
+          %a{:href => "#"}
+            %b.blue-green-text.fi-puzzle
+            games
+          %ul.dropdown.m-menu
+            %li.blue-green-on-hover
+              =link_to games_path do
+                %b.fi-puzzle
+                meet the games
+            %li.blue-green-on-hover
+              =link_to game_boards_path do
+                %b.fi-play
+                current challenges
+            %li.blue-green-on-hover
+              =link_to archives_game_boards_path do
+                %b.fi-star
+                archives
+        %li.divider
+        %li.has-dropdown.small-dropdown
+          %a{:href => "#"}
+            %b.green-text.fi-results
+            posts
+          %ul.dropdown.m-menu
+            %li.green-on-hover
+              =link_to posts_path do
+                %b.fi-results
+                all posts
+            %li.green-on-hover
+              =link_to popular_posts_path do
+                %b.fi-heart
+                popular
+            -if user_signed_in?
+              %li.green-on-hover
+                =link_to user_games_posts_path do
+                  %b.fi-star
+                  your posts
+              %li.green-on-hover
+                =link_to subscriptions_posts_path do
+                  %b.fi-star
+                  by users you follow
+              %li.green-on-hover
+                =link_to familiar_posts_path do
+                  %b.fi-star
+                  familiar users
+            %li.green-on-hover
+              =link_to flagged_posts_path do
+                %b.fi-star
+                flagged
+
+        %li.divider
+        %li.has-dropdown.small-dropdown
+          %a{:href => "#"}
+            %b.red-text.fi-trophy
+            stats
+          %ul.dropdown.m-menu
+            %li.red-on-hover
+              =link_to stats_path('yesterday') do
+                %b.fi-star
+                yesterday's leaderboard
+            %li.red-on-hover
+              =link_to stats_path('week')  do
+                %b.fi-star
+                this week's leaderboard
+            %li.red-on-hover
+              =link_to stats_path('month')  do
+                %b.fi-star
+                this month's leaderboard
+            %li.red-on-hover
+              =link_to stats_path('overall')  do
+                %b.fi-star
+                all-time leaderboard
+
+        %li.divider
+        %li.has-dropdown.small-dropdown
+          %a{:href => "#"}
+            %b.light-blue-text.fi-torsos
+            users
+          %ul.dropdown.m-menu
+            %li.light-blue-on-hover
+              =link_to users_path do
+                %b.fi-star
+                explore users
+            %li.light-blue-on-hover
+              =link_to users_path  do
+                %b.fi-star
+                people you follow
+            %li.light-blue-on-hover
+              =link_to users_path  do
+                %b.fi-star
+                popular users
+
+
+      %ul.right
         -if user_signed_in?
-          %li.divider
-          %li.has-dropdown.hide-for-small
-            %a{:href => "#"} POST
-            %ul.dropdown.m-menu
-              %li
-                .row{:style=>"background-color:#835B9F;"}
-                  .large-4.medium-6.small-12.columns.post-option{"data-post-type" => "prose", :class=>"post-button"}
-                    %i.fi-pencil
-                    comment
-                    %p contribute to the political dialogue
-                  .large-4.medium-6.small-12.columns.post-option{"data-post-type" => "link", :class=>"post-button"}
-                    %i.fi-web
-                    link
-                    %p news, blogs and other election resources
-                  .large-4.medium-6.small-12.columns.post-option{"data-post-type" => "video", :class=>"post-button"}
-                    %i.fi-video
-                    video
-                    %p embed a video from youtube, vimeo or vine
-                .row{:style=>"background-color:#835B9F;"}
-                  .large-6.medium-6.small-12.columns.post-option{"data-post-type" => "image", :class=>"post-button"}
-                    %i.fi-image
-                    image
-                    %p upload a photo, graphic or political meme
-        -if user_signed_in?
-          %li=link_to current_user.username, user_path(current_user.username)
+          %li
+            =link_to profile_path(current_user.username), :class=> "personal-menu blue-green-text" do
+              %i.fi-torso
+          %li
+            = link_to user_conversations_path(current_user), :class=> "green-text messages-menu" do
+              %i.fi-mail
+          %li
+            = link_to user_notifications_path(current_user.username),:class=> "red-text notifications-menu" do
+              %i.fi-alert
+          %li
+            = link_to edit_user_path(current_user), :class=> "light-blue-text about-menu" do
+              %i.fi-widget
         -else
           %li
             %a{"data-reveal-id" => "login", :href => "#"} Login
+          %li.divider
           %li
             =link_to 'Signup', new_user_registration_path
+
+
   #mobile-login.show-for-small-only
     %ul
       -if user_signed_in?

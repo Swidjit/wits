@@ -1,0 +1,31 @@
+// Place all the styles related to the Games controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.improvement {
+  position: relative; 
+  .vote-bar {
+    padding-left: 30px;
+    margin-top: -18px;
+    
+  }
+  .delete {
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    color: #222;
+  }
+}
+
+blockquote {
+  background: #f9f9f9;
+  border-left: 10px solid #ccc;
+  margin: 1.5em 15px 0;
+  padding: 0 10px 1em 10px;
+
+
+}
+
+blockquote p {
+  display: inline;
+}
+

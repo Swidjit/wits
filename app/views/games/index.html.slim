@@ -1,0 +1,25 @@
+h2 all games
+#masonry-container
+	=render @games
+
+javascript:
+
+	$(document).ready(function() {
+
+		$('#masonry-container').masonry({
+		    itemSelector: '.game',
+		    isAnimated: !Modernizr.csstransitions,
+		    isFitWidth: true,
+			gutterWidth: 5,
+		    columnWidth: function() {
+		    	$('.col2').css("width",$('#masonry-container').width() / 2);
+			    return $('#masonry-container').width() / 2;
+		  	}
+		    
+		  });	
+		
+		$( window ).resize(function() {
+		  $('.col2').css("width",$('#masonry-container').width() / 2);
+		});	
+	
+	});

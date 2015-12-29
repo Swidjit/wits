@@ -1,0 +1,71 @@
+
+-content_for :breadcrumbs do
+	ul
+	  li=link_to "All Users", users_path
+	  li=link_to "#{@user.username}", profile_path(@user.username)
+.col-66	  
+	div id="game-#{@user.id}" class="game green" style="margin-bottom: 25px;"
+
+		.game-feed-logo
+			=image_tag('profile.svg',:size=>'100x120')
+		.game-frame style="text-align:left;"
+	
+			=link_to profile_path(@user.username) do
+				.game-feed-header
+					.user-title 
+						| @#{@user.username} 
+					.game-description.subtle
+						=" (#{@user.first_name}"	
+			.clear
+			-if user_signed_in?
+				-unless current_user == @user
+					-if @subscription
+						=render :partial => 'subscriptions/unfollow_user', :locals => {user:@user}		
+					-else 
+						=render :partial => 'subscriptions/follow_user', :locals => {user:@user}
+					=link_to "#", :id => "message-button" do
+						button.small message #{@user.username}
+			.game-instructions.more
+				=@user.about
+			.clear
+	-@posts.each do |post|
+		=render :partial => 'posts/feed_layout', :locals => {:post=>post, :source=>"home"}	    	
+	
+.col-33
+	.stats-box.dark-blue
+		h3 user stats
+		.stat-label creativity score
+		.stat-data =@user.score
+		.clear
+		.stat-label number posts
+		.stat-data =@user.posts.count
+		.clear
+		.stat-label member since
+		.stat-data =@user.created_at.strftime('%m/%Y')
+		h3 style="padding-top: 10px;" awards 
+		=render @user.awards.winner
+		=render @user.awards.top10
+		=render @user.awards.top10pct		
+
+	h3 style="margin:15px 0 12px"
+		| #{@user.username}'s favorites
+	
+	-@fav_posts.each do |post|
+		=render :partial => 'posts/feed_layout', :locals => {:post=>post, :source=>"home"}
+
+
+	
+
+-content_for :modals do
+	#message-user
+	  =render :partial => 'conversations/message_user'
+
+javascript:
+    $(document).ready(function() {
+		$('#message-user').easyModal();  
+		$('#message-button').click(function() {$('#message-user').trigger('openModal')});  
+    });
+
+
+
+    

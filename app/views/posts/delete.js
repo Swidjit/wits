@@ -1,0 +1,1 @@
+$.notification({ message:"post deleted", type:"success" });

@@ -1,0 +1,15 @@
+- @offer.messages.each do |message|
+  .offer_rpt
+    = UserDecorator.new(message.user).linked_profile_pic('40')
+    = message.body
+  .clear
+
+%a{:href => "#", :class => 'toggle-offer-reply'} reply
+
+.offer_reply_form.hidden
+  = form_for :offer_message, :url => offer_offer_messages_path(@offer) do |f|
+    = f.hidden_field :offer_id, :value => @offer.id
+    .formrow
+      = f.text_area :body
+    .formrow
+      = f.submit 'reply'

@@ -1,0 +1,29 @@
+.post.flaggable id="post-#{post.id}" style="position: relative;"
+	
+
+	-if post.status == "draft"
+		.post-status
+			p this is an unpublished draft
+	.post-question.light-blue
+		.game-title.subtle
+			=post.game_board.game.title
+		.game-description.subtle
+			=post.game_board.game.description	
+		.clear		
+		-@board = post.game_board
+		=render :partial => 'games/'+@board.game.title.downcase.tr(' ', '_') + '_details'
+	=link_to post_path(post) do
+		.post-answer.light-red
+			.padded =post.body
+	.post-actions
+		=render :partial => 'posts/post_actions', :locals=>{post:post}
+	.flag-options
+		h3 what's your quarrel with this post?
+		.close
+			i.fi-x
+		=link_to post_create_or_destroy_reaction_path(post.id, :type => "off-topic"),  {:remote=>"true",:method => "post"} do
+			h4 this post is off-topic
+			p does not comply with the game rules
+		=link_to post_create_or_destroy_reaction_path(post.id, :type => "offensive"),  {:remote=>"true",:method => "post"} do
+			h4 this post is offensive
+			p racist, sexist, vulgar or otherwise hateful/demeaning				

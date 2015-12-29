@@ -1,0 +1,28 @@
+=link_to game_board_path(board) do
+	.game-info.blue-green
+		.game-title
+			=board.game.title
+		.game-description
+			=board.game.description
+	.clear
+	.game-content.light-blue
+		-@board = board
+		=render :partial => 'games/'+board.game.title.downcase.tr(' ', '_') + '_details'
+		-if board.status == 'active'
+			=link_to game_board_path(board) do
+				button.play play
+.clear
+.post-reactions.green
+	=render :partial => 'votes/vote_bar', :locals => {obj:board}
+.post-meta.light-gray 
+	.expires-on expires #{(board.created_at + board.duration.hours).strftime('%m/%d at %H:%M')}	
+-if user_signed_in? && board.status == "active"
+	-@draft = Post.unscoped.where(:game_board_id => @board.id, :user_id => current_user.id).first
+	-if @draft
+		= render :partial => "posts/draft", :locals => {post:@draft}
+-if board.status == 'expired'
+	-board.posts.order('score desc').limit(3).each do |post|
+		= render :partial => 'posts/just_the_response', :locals => {post:post}
+	.game-info
+		=link_to game_board_path(board) do
+			| view all entries > 			

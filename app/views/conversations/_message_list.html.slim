@@ -1,0 +1,4 @@
+- conversations.each do |conversation|
+  div id="message-link-#{conversation.id}" 
+    .message-item.clearfix class=cycle("odd", "even") 
+      =render :partial => 'message_link',:locals => {conversation:conversation}

@@ -15,11 +15,4 @@
           %i.fi-share
           .count=post.reactions.shared.size
 
-    -else
-      %div{:style=> "cursor:pointer;margin-left: 10px; color: #274472;"}
-        =link_to post_path(post.id), :method=>:delete, :remote=>:true do
-          .delete
-            %i.fi-trash
-            delete
-
     .fb-share-button{:style => 'margin-left: 13px;',"data-href" => post_url(post), "data-layout" => "button"}

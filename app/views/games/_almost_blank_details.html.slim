@@ -1,0 +1,4 @@
+.game-question 
+	-@board.data.split(",").each do |letter|
+		.letter =letter.upcase
+.game-instructions Your phrase must include #{@board.data.split(",").size} words beginning with above letters, in the order they appear

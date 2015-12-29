@@ -1,0 +1,41 @@
+=content_for :head do
+  = stylesheet_link_tag "offers"
+
+=content_for :page_title do
+  = image_tag 'messages.svg', :width => "25px",:height => "auto"
+  %h1 
+    =link_to 'Your Messages', user_offers_path(current_user.display_name)
+    with
+    -if @offer.user_id == current_user.id
+      = @item ? @item.user.display_name : @offer.notifications.first.receiver.display_name
+    -else
+      = link_to @offer.user.display_name, profile_path(@offer.user.display_name)
+
+    - if @item
+      about
+      = link_to @item.title, polymorphic_path(@item)
+  .page_sub_heading
+    An archive of the various private conversations you've had with other users about content on the site.
+
+
+.message-reply
+  
+  = form_for :offer_message, :remote => true, :url => conversation_messages_path(@offer) do |f|
+    = f.hidden_field :offer_id, :value => @offer.id
+    .formrow
+      
+      = f.text_area :body, :autofocus => true, :id=>"message-body", :placeholder => 'type your new message here'
+    = f.submit 'Send Message', :id => "send-message-button", :class => "green-button"
+.message-thread
+  = render @offer.messages    
+  
+:javascript
+  $("#message-body").animate({ scrollTop: $('#message-body')[0].scrollHeight}, 1000);
+  $("#send-message-button").click(function(e) {
+    e.preventDefault();
+    console.log($(this).context.value);
+    $(this).context.value = "sending"
+    $(this).context.disabled = true;
+    $(this).submit();
+  });
+  

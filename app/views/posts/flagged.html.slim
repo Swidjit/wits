@@ -1,0 +1,47 @@
+-content_for :breadcrumbs do
+	=link_to "All Games", games_path
+	'>
+	=link_to "All Posts", posts_path
+	  
+#masonry-container.transitions-enabled.infinite-scroll.centered.clearfix
+	-@posts.each do |post|
+		=render :partial => 'posts/flagged_post', :locals => {:post=>post, :source=>"home"}	
+#hey
+
+javascript:
+	$(document).ready(function() {
+  		var page = 1;
+      	loading = false;
+
+	  function nearBottomOfPage() {
+	    return $(window).scrollTop() > $(document).height() - $(window).height() - 200;
+	  }
+	
+	  $(window).scroll(function(){
+	    if (loading) {
+	      return;
+	    }
+	
+	    if(nearBottomOfPage()) {
+	      loading=true;
+	      page++;
+			jQuery.ajax({
+			    type: "GET",
+			    url: "#{@more_posts_path}?page="+ page,
+			    dataType: 'html',
+			    cache: false,
+			    success: function (html) {
+			        if (html.length > 0) {
+			        	loading=false;	
+			            var el = jQuery(html);
+			            
+			            jQuery("#masonry-container").append(el).masonry( 'appended', el, true );
+			            $('.col3').css("width",$('#masonry-container').width() / 3 - 20);
+			        }
+			    }
+			});		      
+	    }
+	  });
+	});
+
+	

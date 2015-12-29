@@ -1,0 +1,9 @@
+.col-50
+	.title top players
+	-@top_players.each do |usr|
+		=render :partial => "users/overview", :locals => {:user => usr}
+		
+.col-50
+	.title top posts
+	-@top_posts.each do |post|	
+		=render :partial => 'posts/feed_layout', :locals => {:post=>post, :source=>"home"}	  

@@ -11,6 +11,18 @@ class User < ActiveRecord::Base
   #validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/
 
   has_many :posts
+  has_many :workspaces, :dependent => :delete_all
+  has_many :subscriptions, :dependent => :delete_all
+  has_many :comments
+  has_many :reactions
+  has_many :flag_votes
+  has_many :awards, :dependent => :delete_all
+  has_many :notifications, :foreign_key => :receiver_id, :dependent => :delete_all
+  has_many :familiarities, :dependent => :delete_all
+  #has_many :familiar_users, :dependent => :delete_all, :through => :familiarities, :source => :familiar,
+    #:conditions => "#{Familiarity.table_name}.familiarness > 0",
+    #:order => "#{Familiarity.table_name}.familiarness DESC"
+  has_many :posts
   has_attached_file :avatar, :styles => { :medium => "200x200>", :thumb => "100x100#" }, :default_url => "/images/:style/missing.png"
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 

@@ -1,0 +1,30 @@
+nav.main-menu
+  ul
+    li
+      a href="#" 
+        =icon('dashboard', '', class: 'large-icon')
+        span.nav-text
+          | Your Dashboard
+    li.has-subnav
+      =link_to game_boards_path do
+        =icon('puzzle-piece', '', class: 'large-icon')
+        span.nav-text
+          | Current Games
+    li.has-subnav
+      =link_to posts_path do 
+        =icon('file', '', class: 'large-icon')
+        span.nav-text
+          | Submissions
+    li
+      =link_to stats_path do
+        =icon('trophy', '', class: 'large-icon')
+        span.nav-text
+          | Results
+    li.has-subnav
+      =link_to users_path do 
+        =icon('users', '', class: 'large-icon')
+        span.nav-text
+          | Explore Users
+
+
+

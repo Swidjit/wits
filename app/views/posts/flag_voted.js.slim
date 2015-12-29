@@ -1,0 +1,5 @@
+|
+	$.notification({ message:"thanks for your input!", type:"success" });
+	$('#post-#{@id} .flag-no').removeClass('red');
+	$('#post-#{@id} .flag-yes').removeClass('red');
+	$('#post-#{@id} .flag-#{@vote}').addClass('red');

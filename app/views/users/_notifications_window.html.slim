@@ -1,0 +1,5 @@
+- @notifications.each do |notification|
+  -case notification.notifier_type
+    -when 'Comment'
+      p
+        | #{User.find(notification.sender_id).username} commented on your response to "#{Post.find(Comment.find(notification.notifier_id).commentable_id).game_board.content}"

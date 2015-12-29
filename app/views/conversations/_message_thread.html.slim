@@ -1,0 +1,22 @@
+h4.padless
+  
+  - if conversation.recipient_id == -1
+    | message from system admin
+  - elsif conversation.user_id == current_user.id
+    | message with
+    =link_to "@#{User.find(conversation.recipient_id).name}", profile_path(User.find(conversation.recipient_id).name)
+  - else
+    | message with
+    =link_to "@#{conversation.user.name}", profile_path(conversation.user.name)
+
+- unless conversation.recipient_id == -1
+  .message-reply
+    
+    = form_for :conversation_message, :remote => true, :url => conversation_messages_path(conversation) do |f|
+      = f.hidden_field :conversation_id, :value => conversation.id
+      .formrow
+        
+        = f.text_area :body, :autofocus => true, :id=>"message-body", :placeholder => 'type your new message here'
+      = f.submit 'reply', :id => "send-message-button", :class => "green-button", :style => "margin-left: 30px;"
+.message-conversation
+  = render conversation.messages

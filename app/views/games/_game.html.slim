@@ -1,0 +1,31 @@
+div id="game-#{game.id}" class="game"
+	.green
+		.game-feed-logo
+			=image_tag('profile.svg',:size=>'100x120')
+		.game-frame
+	
+			=link_to game_path(game) do
+				.game-feed-header
+					.game-title
+						=game.title
+					.game-description.subtle
+						=game.description
+					.game-link
+						button game overview
+						.clear
+						| top players, best entries & game archives				
+			.clear
+			
+			
+	
+			.game-instructions.more
+				| feugiat	 Quisque semper faucibus venenatis. Nunc sit amet rutrum urna. Quisque semper faucibus venenatis. Nunc sit amet rutrum urna.Quisque semper faucibus venenatis. Nunc sit amet rutrum urna.Quisque semper faucibus venenatis. Nunc sit amet rutrum urna.Quisque semper faucibus venenatis. Nunc sit amet rutrum urna.	
+	.col-100.marginless.blue-green
+		h3 current games
+		-game.game_boards.active.limit(2).each do |g|
+			=render :partial => 'game_boards/basic_layout', :locals => {board: g}
+		.clear style="height:15px;"
+		h3 recent results
+		-game.game_boards.expired.limit(2).order("end_date desc").each do |g|
+			=render :partial => 'game_boards/basic_layout', :locals => {board: g}	
+		.clear style="height:15px;"

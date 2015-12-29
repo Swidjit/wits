@@ -22,6 +22,10 @@ gem 'omniauth-facebook'
 
 gem 'cancancan', '~> 1.10'
 
+gem 'rabl'
+gem 'masonry-rails'
+gem 'slim'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets

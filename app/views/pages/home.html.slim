@@ -1,0 +1,43 @@
+-if user_signed_in? && current_user.sign_in_count == 1
+	#welcome-box
+		.close style="color:#222;"
+			i.fi-star
+		h2 Welcome, beta tester
+		p Thanks for your willingness to participate, I hope you find the experience worthwhile.
+		p To get started, browse the active challenges from this main page and click on any one to play it.  Once on the game page, you will have a space for submitting your response, as well as a pop-up workspace for brainstorming.
+		p You will have until 9a EDT the following day to submit answers before the puzzles lock.  Once this happens, you will be able to see everyone else's answers, and others will be able to see yours.
+		p When you return tomorrow to check out the new games, take some time to browse other people's responses and like/love/flag/share them as you see fit.
+		p I played one day by myself so you can see examples of how the games work.  Check out the responses under "yesterday's posts" to see these examples.
+		p Please email me at playwithyourmind@gmail.com with any comments/feedback, especially if you encounter an error of some sort.
+		p I will be making changes and adding new features daily, so don't be shy with those ideas!
+		p THANKS & HAVE FUN!
+		p Alex
+
+#intro-text
+	p Unnamed is a place to exercise your wit and explore the creative beauty of the crowd.
+#best-of-yesterday.large-6.medium-6.columns
+	-if user_signed_in?
+
+		-if @recent_games.size > 1
+			.title recent challenges you've played
+			-@recent_games.each do |board|
+				.feed-game
+					=render :partial => 'game_boards/game_board', :locals => {:board=>board}
+				div style="height:20px;"
+	.title yesterday's top posts
+	-@best_of.each do |post|
+		=render :partial => 'posts/feed_layout', :locals => {:post=>post, :source=>"home"}
+
+#current-games.large-6.medium-6.columns
+	.title active challenges
+	-@current_games.each do |board|
+		.feed-game
+			=render :partial => 'game_boards/game_board', :locals => {:board=>board}
+		div style="height:45px;"
+
+
+		
+javascript:
+	$(document).on('click', '.close', function() { 
+		$('#welcome-box').remove();
+	});

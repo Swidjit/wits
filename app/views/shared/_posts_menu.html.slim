@@ -1,0 +1,19 @@
+=link_to posts_path do
+	i.fi-star
+	.label all posts
+=link_to popular_posts_path do
+	i.fi-star
+	.label popular posts	
+-if user_signed_in?
+	=link_to user_games_posts_path do
+		i.fi-star
+		.label from games you've played
+	=link_to subscriptions_posts_path do
+		i.fi-star
+		.label by users you follow	
+	=link_to familiar_posts_path do
+		i.fi-star
+		.label by other users you know	
+=link_to flagged_posts_path do
+	i.fi-star
+	.label flagged posts

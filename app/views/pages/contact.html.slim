@@ -1,0 +1,9 @@
+=stylesheet_link_tag 'login_form'
+#form-oldschool.blue-green
+	=form_tag contact_forms_path, :method => :post, :remote => :true do 
+		fieldset
+			=text_area_tag :message,'', :class => 'contact-data login-input', :placeholder => "say something to us"
+		fieldset
+			=text_field_tag :email,'', :class => 'contact-data login-input', :placeholder => "your email address"
+		=text_field_tag :name, '',:class => 'contact-data login-input', :placeholder => "your first name"
+		=submit_tag "send message", :style => "margin-top: 15px;"

@@ -1,0 +1,12 @@
+.basic-game.blue-green
+	.image
+		i.fi-star
+	.padding
+		h4="#{board.content}"
+		-if board.status == 'active'
+			=link_to game_board_path(board) do
+				button.small play
+		-else 
+			=link_to game_board_path(board) do
+				button.small results	
+		.expires expires on		
