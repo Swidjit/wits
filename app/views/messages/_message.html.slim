@@ -1,6 +1,6 @@
 .offer-message
   .offer-message-meta
-    =link_to message.user.name, profile_path(message.user.name)
+    =link_to message.user.username, profile_path(message.user.username)
     .offer-message-meta-timestamp
       = message.created_at.strftime("%m/%d/%Y %l:%M %p")
 

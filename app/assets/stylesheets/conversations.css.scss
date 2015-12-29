@@ -32,7 +32,7 @@ font-size: 13px;
   display: inline;
   position: absolute;
   left: 7px;
-  top: 0px;  
+  top: 0px;
   font-size: 14px;
 }
 .message-item {
@@ -50,7 +50,7 @@ font-size: 13px;
   text-overflow: ellipsis;
   overflow: hidden;
   height: 80px;
-    
+
 }
 
 #message-threads {
@@ -142,7 +142,7 @@ font-size: 13px;
 .message-reply {
 
   position: relative;
-  height: 65px;
+
 }
 .message-reply label {
   display: block;
@@ -152,15 +152,12 @@ font-size: 13px;
 }
 .message-reply textarea {
   border: 1px solid #ccc;
-  position: absolute;
   top: 10px;
-  left: 120px;
-  right: 0px;
   resize: none;
   height: 45px;
+
 }
-.message-reply input[type="submit"] {
-  position: absolute;
-  left: 0px;
-  top: 18px;
+
+.message-conversation {
+  display:block;
 }

@@ -1,5 +1,6 @@
 .award
-	.award-image =icon('trophy')
+	.award-image 
+		b.fi-trophy
 	.award-label =award.award_type
 	.award-post 
 		=link_to "#{award.post.game_board.game.title} Board ##{award.post.game_board.id}", post_path(award.post)

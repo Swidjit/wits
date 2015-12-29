@@ -22,9 +22,11 @@
 
         = yield :breadcrumbs
     .row
-      #notice
-        = flash_notifications
+
+
       .large-12.columns
+        #notice
+          = flash_notifications
         = yield
 
     =render :partial => 'shared/footer'

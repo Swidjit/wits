@@ -15,7 +15,7 @@ class Award < ActiveRecord::Base
       notification = Notification.new
       notification.notifier = self
       #a hack to send from admin
-      notification.sender = User.where(:name=>'admin').first
+      notification.sender = User.where(:username=>'admin').first
       notification.notifier_action = self.award_type
       notification.receiver = self.user
 

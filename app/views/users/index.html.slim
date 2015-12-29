@@ -1,22 +1,24 @@
 #user-search-box
 	input#search_people type='text' placeholder=('search by name or username') style="margin-bottom:0px;"
 	    #search_result
-.col-33.light-red
-	.title all users
-	-@users.each do |usr|
-		=render :partial => "users/overview", :locals => {:user => usr}
--if user_signed_in?
-	.col-33.light-gray
-		.title users you follow
-		-@user_subscriptions.each do |usr|
+.row
+	.large-4.medium-4.columns	
+		h4 all users
+		-@users.each do |usr|
 			=render :partial => "users/overview", :locals => {:user => usr}
-.col-33.light-blue
-	.title most popular users
-	-@popular_users.each do |usr|
-		=render :partial => "users/overview", :locals => {:user => usr}
+	-if user_signed_in?
+		.large-4.medium-4.columns
+			h4 users you follow
+			-@user_subscriptions.each do |usr|
+				=render :partial => "users/overview", :locals => {:user => usr}
+	.large-4.medium-4.columns
+		h4 most popular users
+		-@popular_users.each do |usr|
+			=render :partial => "users/overview", :locals => {:user => usr}
 	
 javascript:
   $(document).ready(function(){
+  	$('#search_people').focus();
 
     jQuery(function(){
       jQuery('input#search_people')

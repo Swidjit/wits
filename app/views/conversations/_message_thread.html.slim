@@ -1,13 +1,13 @@
-h4.padless
+h5.padless
   
   - if conversation.recipient_id == -1
     | message from system admin
   - elsif conversation.user_id == current_user.id
-    | message with
-    =link_to "@#{User.find(conversation.recipient_id).name}", profile_path(User.find(conversation.recipient_id).name)
+    | Message with
+    =link_to "@#{User.find(conversation.recipient_id).username}", profile_path(User.find(conversation.recipient_id).username)
   - else
     | message with
-    =link_to "@#{conversation.user.name}", profile_path(conversation.user.name)
+    =link_to "@#{conversation.user.username}", profile_path(conversation.user.name)
 
 - unless conversation.recipient_id == -1
   .message-reply
@@ -17,6 +17,6 @@ h4.padless
       .formrow
         
         = f.text_area :body, :autofocus => true, :id=>"message-body", :placeholder => 'type your new message here'
-      = f.submit 'reply', :id => "send-message-button", :class => "green-button", :style => "margin-left: 30px;"
+      = f.submit 'reply', :id => "send-message-button", :class => "button tiny"
 .message-conversation
   = render conversation.messages

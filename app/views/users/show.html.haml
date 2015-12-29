@@ -1,20 +1,113 @@
+-content_for :breadcrumbs do
+  =link_to "All Users", users_path
+  >
+  =link_to "#{@user.username}", profile_path(@user.username)
 .row
-  .large-4.columns
-    #user-photo
-      =render :partial => 'users/photo'
-    -puts @user
+  .large-5.medium-5.columns
+    #user-info
+      %b.fi-torso-female
+      %h3=@user.username
+      .user-stats
+        .user-stat
+          .number=@user.posts.count
+          .stat-label posts
+        .user-stat
+          .number 37
+          .stat-label subscribers
+        .user-stat
+          .number=@user.score
+          .stat-label score
+        .user-stat
+          .number 37
+          .stat-label percentile
+      -if user_signed_in?
+        -unless current_user == @user
+          .row
+            .large-6.columns
+              -if @subscription
+                =render :partial => 'subscriptions/unfollow_user', :locals => {user:@user}
+              -else
+                =render :partial => 'subscriptions/follow_user', :locals => {user:@user}
+            .large-6.columns
+              #message-button
+                =link_to "#" do
+                  %button#message.small message #{@user.username}
+    #user-awards
+      -if @awards.length > 0
+        %h4 #{@user.username}'s awards
 
-    = s3_uploader_form callback_url: upload_file_user_path(@user), callback_param: "user[image_url]", id: "s3-uploader" do
-      = file_field_tag :file
+        =render @awards.take(3)
+        -if @awards.length > 3
+          .more
+            view all
+          .extra
+            =render @awards[3..-1]
+            .less
+              hide
 
-%script#template-upload{:type => "text/x-tmpl"}
-  .upload{:id => "file-{%=o.unique_id%}"}
-    {%=o.name%}
-    .progress
-      .bar{:style => "width: 0%"}
+
+    -if @subscribers.length > 0
+      %h4 #{@user.username}'s followers
+      #user-subscribers
+        =render @subscribers.take(6)
+        -if @subscribers.length > 6
+          .more
+            view all
+          .extra
+            =render @subscribers[6..-1]
+            .less
+              hide
+
+  .large-7.medium-7.columns
+    %h4.user #{@user.username}'s posts
+    #user-posts
+      -@posts.take(3).each do |post|
+        =render :partial => 'posts/feed_layout', :locals => {:post=>post, :source=>"home"}
+      -if @posts.length > 3
+        .more
+          view all
+        .extra
+          -@posts.drop(3).each do |post|
+            =render :partial => 'posts/feed_layout', :locals => {:post=>post, :source=>"home"}
+          .less
+            hide
+    #user-shares
+      %h4 #{@user.username}'s shares
+      -@fav_posts.take(3).each do |post|
+        =render :partial => 'posts/feed_layout', :locals => {:post=>post, :source=>"home"}
+      -if @fav_posts.length > 3
+        .more
+          view all
+        .extra
+          -@fav_posts.drop(3).each do |post|
+            =render :partial => 'posts/feed_layout', :locals => {:post=>post, :source=>"home"}
+          .less
+            hide
+-if user_signed_in?
+  #message-user.reveal-modal{"data-reveal" => ""}
+    .modal
+      .modal-heading
+        %h3 Message user
+      .modal-body
+        =form_for :offer, :url => conversations_path, :html => {:id => "message-form"} do |f|
+          = f.text_area :text, :id => 'text', :name => 'text', :class => 'message-form',:placeholder => "Say something PRIVATELY to this user"
+          =hidden_field_tag :user_id, '', :id=>'user-id'
+          .modal_button
+          = f.submit 'Send Message', :class => "button", :id => 'send'
+    %a.close-reveal-modal ×
+
 :javascript
-   $(document).on('ready page:load', function(){
+  $('#message').on('click', function() {
+    $('#user-id').val('#{@user.id}');
+    $('#message-user').foundation('reveal','open');
+  });
 
-    $("#s3-uploader").S3Uploader();
-
-   });
+  $('.more').on('click', function() {
+    $(this).next('.extra').toggle();
+    console.log($(this));
+    $(this).toggle();
+  });
+  $('.less').on('click', function() {
+    $(this).closest('.extra').toggle();
+    $(this).parent().parent().find('.more').toggle();
+  });

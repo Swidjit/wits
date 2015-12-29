@@ -1,6 +1,5 @@
-#modal-window
+#new-message.reveal-modal{"data-reveal" => ""}
   .modal_heading
-    %a.close_window{:onclick => "closeModalWindow()"} X
     %h2 new message
   .modal_body
     #select-recipient
@@ -8,23 +7,24 @@
       %input#search_people{:type=>'text', :placeholder => 'type a user name',:style=>"width: 95%; margin-top: 10px;"}
         #search_result
     #message-text{:style=>"display:none;"}
-      =form_for :offer, :url => offers_path,:html => {:id => "message-form"} do |f|
+      =form_for :offer, :url => conversations_path,:html => {:id => "message-form"} do |f|
         = f.text_area :text, :id => 'text', :name => 'text', :class => 'message-form',:placeholder => 'say something PRIVATELY to this user'
         %input{:type => 'hidden', :name => 'user_id', :id => 'user-id'}
         .modal_button
-        = f.submit 'Send Message'     
-         
-    
+        = f.submit 'Send Message', :class => "button"
+  %a.close-reveal-modal ×
+
 :javascript
   function setClickBehavior() {
     $('.username').click(function() {
-      if($(this).data("username") == "#{current_user.display_name}") {
+      if($(this).data("username") == "#{current_user.username}") {
         $.notification({ message:"you can't message yourself, silly user" });
         $('#search_result').empty();
-        $('#search_people').val('');    
+        $('#search_people').val('');
       }
       else {
-
+        console.log($(this));
+        console.log($(this).data);
         $('#user-id').val($(this).data("user"));
         $('#search_people').val($(this).data("username"));
         $('#search_result').empty();
@@ -35,31 +35,17 @@
 
     });
   };
-  
+
   $(document).ready(function() {
     $('#search_people').focus();
     $('textarea.message-form').focus(function () {
-      $(this).animate({ height: "8em" }, 500); 
-    });  
+      $(this).animate({ height: "8em" }, 500);
+    });
     $('#search_people').click(function() {
       $(this).select();
     });
-    $("#message-form").validate({
-        rules: {
-          text: {
-            required: true,
-            minlength: 2
-          },
-        },
-        submitHandler: function(form) {
-          console.log("success");
-          form.submit();
-        },
-        invalidHandler: function(e,v) {
-          showFormErrors(e,v);
-        }
-      });
-  
+
+
   jQuery(function(){
       jQuery('input#search_people')
         .data('timeout', null)
@@ -68,33 +54,25 @@
             jQuery(this).data('timeout', setTimeout(function(){
 
              //timeout function
-             $.post('/users/search', { name: $("input#search_people").val()}, function(data) {
+             $.post('/users/autocomplete', { q: $("input#search_people").val()}, function(data) {
 
                 Jaml.register('user', function(user) {
-                  a({href: ("#"), cls: "username", "data-user": user.id, "data-username": user.display_name},
+                  a({href: ("#"), cls: "username", "data-user": user.user.id, "data-username": user.user.username},
                     div(
-                      img({src: user.profile_pic_id}),
-                      span("@",user.display_name, "  ", user.full_name)
+                      img({src: '/assets/profile.svg'}),
+                      span(user.user.username)
                       )
                     )
-                  div({cls: "clearboth"})  
+                  div({cls: "clearboth"})
                 });
-                
-                
+
+
 
                  if(data.length > 0){
-                   $("#search_result").html("people maching '"+ $("input#search_people").val() + "'")
+                  console.log('gggggg');
+                  $("#search_result").show();
+                   $("#search_result").html("people matching '"+ $("input#search_people").val() + "'")
                    $(data).each(function(idx, d){
-                     if(d.profile_pic_id == null){
-                       d.profile_pic_id = "/assets/profile-green.svg" //place you default img
-                     }
-
-                     if(d.is_business == true){
-                       d.full_name = "[business]"
-                     }else{
-                       d.full_name = "(" + d.full_name + ")"
-                     }
-
                      $("#search_result").append(Jaml.render('user',d));
                      setClickBehavior();
                    })
@@ -109,5 +87,5 @@
             }, 500));
         });
     });
-    
+
   });

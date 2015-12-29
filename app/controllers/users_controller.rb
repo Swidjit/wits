@@ -16,9 +16,19 @@ class UsersController < ApplicationController
       end
       @posts = @user.posts
     end
+    ids = @user.awards.winner.pluck(:id)
+    ids.concat @user.awards.top10.pluck(:id)
+    ids.concat @user.awards.top10pct.pluck(:id)
+    result_hash = Award.find(ids).each_with_object({}) {|result,result_hash| result_hash[result.id] = result }
+    result_hash=ids.map {|id| result_hash[id]}
+
+    @awards = result_hash
     #entries loved by user
     ids = @user.reactions.shared.map(&:post_id)
+    puts ids
     @fav_posts = Post.find(ids)
+
+    @subscribers = @user.subscribed_users
   end
 
   def edit

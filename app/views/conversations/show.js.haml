@@ -1,4 +1,5 @@
 $('#message').empty();
 $('#message').html("#{escape_javascript render :partial => 'message_thread', :locals => {offer:@offer}}");
 $('#message-link-#{@offer.id} .message-item').html("#{escape_javascript render :partial => 'message_link', :locals => {offer:@offer}}");
-$.get("/users/check_notifcations"); 
+$.get("/users/check_notifcations");
+$('html, body').animate({'scrollTop':   $('#bottom').offset().top}, 1000);

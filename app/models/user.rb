@@ -89,4 +89,9 @@ class User < ActiveRecord::Base
     self.email && self.email !~ TEMP_EMAIL_REGEX
   end
 
+  def subscribed_users
+    ids = Subscription.where(:subscription_id=>self.id,:subscription_type=>'user').pluck(:user_id)
+    return User.find(ids)
+  end
+
 end
