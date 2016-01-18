@@ -44,7 +44,25 @@
             =render @awards[3..-1]
             .less
               hide
-
+    #user-stats
+      -if @stats.length > 0
+        %h4 #{@user.username}'s stats
+        .game-stat
+          %div.left-text
+            game
+          %div.skinny Pct Avg
+          %div.skinny Score
+          %div.skinny Score Avg
+        -@stats.take(3).each do |stat|
+          =render :partial => 'game_stats/user_stat', :locals => {:game_stat=>stat}
+        -if @stats.length > 3
+          .more
+            view all
+          .extra
+            -@stats.drop(3).each do |stat|
+              =render :partial => 'game_stats/user_stat', :locals => {:game_stat=>stat}
+            .less
+              hide
 
     -if @subscribers.length > 0
       %h4 #{@user.username}'s followers

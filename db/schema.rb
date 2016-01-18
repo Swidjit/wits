@@ -93,12 +93,14 @@ ActiveRecord::Schema.define(version: 20151229153643) do
   end
 
   create_table "game_stats", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "game_id"
-    t.float   "pct"
-    t.integer "score"
-    t.integer "board_count"
-    t.float   "score_avg"
+    t.integer  "user_id"
+    t.integer  "game_id"
+    t.float    "pct"
+    t.integer  "score"
+    t.integer  "board_count"
+    t.float    "score_avg"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "games", force: :cascade do |t|

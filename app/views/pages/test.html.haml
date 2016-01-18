@@ -1,0 +1,62 @@
+%h3 hey
+#tunes
+  .tune
+    %audio#demo{:src => "https://archive.org/download/gd1981-05-16.senn421.wise.parillo.2203.shnf/gd81-05-16d1t06.mp3"}
+    %div
+      %button{:onclick => "document.getElementById('demo').play()"} Play the Audio
+      %button{:onclick => "document.getElementById('demo').pause()"} Pause the Audio
+      %button{:onclick => "document.getElementById('demo').volume+=0.1"} Increase Volume
+      %button{:onclick => "document.getElementById('demo').volume-=0.1"} Decrease Volume
+:javascript
+  $.ajax({
+      dataType : 'json',
+      url: 'http://archive.org/metadata/gd1981-05-16.senn421.wise.parillo.2203.shnf',
+      type: 'post',
+      data: 'id=1',
+      success: function(data) {
+
+
+        objs = getObjects(data, 'format', 'VBR MP3');
+
+        objs = sortResults(objs, 'track', 'asc');
+
+        var arr = [], //to collect id values
+        collection = []; //collect unique object
+
+        $.each(objs, function (index, value) {
+            if ($.inArray(value.track, arr) == -1) { //check if id value not exits than add it
+                arr.push(value.track);//push id value in arr
+                collection.push(value); //put object in collection to access it's all values
+            }
+        });
+        $.each(collection, function (index, value) {
+          console.log(value);
+
+          d = '<audio id="track-'+value.track+'" src="https://archive.org/download/gd1981-05-16.senn421.wise.parillo.2203.shnf/'+value.name+'"></audio>';
+          e = '<button onclick="document.getElementById(\'track-'+value.track+'\').play()">Play the Audio</button>';
+          $('#tunes').append(d);
+          $('#tunes').append(e);
+        });
+      }
+
+  });
+
+  function getObjects(obj, key, val) {
+      var objects = [];
+      for (var i in obj) {
+          if (!obj.hasOwnProperty(i)) continue;
+          if (typeof obj[i] == 'object') {
+              objects = objects.concat(getObjects(obj[i], key, val));
+          } else if (i == key && obj[key] == val) {
+              objects.push(obj);
+          }
+      }
+      return objects;
+  }
+  function sortResults(objs,prop, asc) {
+    objs = objs.sort(function(a, b) {
+        if (asc) return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
+        else return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+    });
+    return objs;
+  }

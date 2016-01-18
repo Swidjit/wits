@@ -8,7 +8,7 @@ class CreateGameStats < ActiveRecord::Migration
       t.integer :score
       t.integer :board_count
       t.float :score_avg
-
+      t.timestamps
     end
   end
 end

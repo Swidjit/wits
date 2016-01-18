@@ -1,0 +1,7 @@
+=form_for @game_board, game_boards_path, :remote => :true do |f|
+  =f.select :game_id, options_from_collection_for_select(Game.all,'id','title')
+  =f.label :content
+  =f.text_field :content, '', :id => 'board-content'
+  =f.label :data
+  =f.text_field :data
+  =f.submit

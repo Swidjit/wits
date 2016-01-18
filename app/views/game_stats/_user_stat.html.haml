@@ -1,0 +1,6 @@
+.game-stat
+  %div.left-text
+    =link_to game_stat.game.title, game_path(game_stat.game)
+  %div.skinny #{(game_stat.pct*100).round(1)}%
+  %div.skinny #{(game_stat.score_avg).round(1)}
+  %div.skinny=game_stat.score

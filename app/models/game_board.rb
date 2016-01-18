@@ -36,5 +36,15 @@ class GameBoard < ActiveRecord::Base
     end
   end
 
+  def create
+
+  end
+
+  private
+
+  def board_params
+    params.require(:game_board).permit(:game_id, :content, :data)
+  end
+
 
 end

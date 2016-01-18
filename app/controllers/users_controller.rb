@@ -28,6 +28,8 @@ class UsersController < ApplicationController
     puts ids
     @fav_posts = Post.find(ids)
 
+    @stats = @user.game_stats.order(pct: :desc)
+
     @subscribers = @user.subscribed_users
   end
 

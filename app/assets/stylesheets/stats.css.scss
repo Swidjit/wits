@@ -1,0 +1,25 @@
+.game-stat {
+  a {
+    font-size: 1em;
+    color: #8BC9C5;
+  }
+  div {
+    width: 100px;
+    text-align:center;
+    display: inline-block;
+  }
+  .skinny {
+    width: 85px;
+    font-size: .85em;
+  }
+  .left-text {
+    text-align:left !important;
+  }
+}
+
+#leaderboards {
+  max-width: 400px;
+  padding: 5px 2px;
+  background-color: #3D4144;
+  color: #eee;
+}

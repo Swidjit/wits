@@ -1,0 +1,48 @@
+%h3 Leaderboards
+.row{:style=>'margin-top: 17px;'}
+  .large-4.columns
+
+
+    #filters
+
+      =form_tag(stats_path, remote: true, id: 'filter-form', method: 'get') do
+        %label Game
+        =select_tag :scope, options_from_collection_for_select(Game.all, 'id','title'), class: 'filter'
+        %label Time Period
+        =select_tag :duration, options_for_select({"all-time"=>0,"yesterday"=>1,"past week"=>7,"past month"=>30,"past year"=>365}), class: 'filter'
+        %label Stat
+        =select_tag :order, options_for_select({"percentage"=>"pct","total score"=>"score", "score average"=>"score_avg"}), class: 'filter'
+  .large-8.columns
+    #leaderboards
+      .game-stat
+        %div
+          user
+        %div.skinny Avg. Pct
+        %div.skinny Avg. Score
+        %div.skinny Total Score
+      #stats
+        =render @stats
+
+
+
+:javascript
+
+
+  $(".filter").change(function() {
+    $('#filter-form').submit();
+  });
+
+
+  $('#reset').on('click', function() {
+    $('.filter').prop('selectedIndex',0);
+    $('#user-location').val('');
+
+  });
+
+
+  $('.toggle-filters').on('click', function() {
+    $('#filters').toggleClass('hide-for-small');
+    $('#filters').toggleClass('mobile-filters');
+    $('#show-filters').toggle();
+
+  });
